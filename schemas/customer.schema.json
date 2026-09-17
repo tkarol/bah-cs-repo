@@ -1,0 +1,149 @@
+{
+  "$ref": "#/definitions/customer",
+  "definitions": {
+    "customer": {
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tier": {
+          "type": "string",
+          "enum": [
+            "strategic",
+            "growth",
+            "standard"
+          ]
+        },
+        "lifecycle_stage": {
+          "type": "string",
+          "enum": [
+            "prospect",
+            "presales",
+            "handoff",
+            "onboarding",
+            "steady_state",
+            "renewal",
+            "at_risk",
+            "churned"
+          ]
+        },
+        "stage_entered": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "contract": {
+          "type": "object",
+          "properties": {
+            "value_annual": {
+              "type": "number",
+              "minimum": 0
+            },
+            "start": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "end": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "vehicle": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "value_annual",
+            "start",
+            "end"
+          ],
+          "additionalProperties": false
+        },
+        "owners": {
+          "type": "object",
+          "properties": {
+            "accountable": {
+              "type": "string",
+              "format": "email"
+            },
+            "presales_lead": {
+              "type": "string",
+              "format": "email"
+            },
+            "delivery_lead": {
+              "type": "string",
+              "format": "email"
+            },
+            "transferred_at": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "acknowledged_by_accountable": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "accountable"
+          ],
+          "additionalProperties": false
+        },
+        "cadence_days": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "added": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              }
+            },
+            "required": [
+              "title",
+              "url",
+              "added"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "slug",
+        "name",
+        "tier",
+        "lifecycle_stage",
+        "stage_entered",
+        "contract",
+        "owners"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

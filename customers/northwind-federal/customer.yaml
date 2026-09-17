@@ -1,0 +1,20 @@
+slug: northwind-federal
+name: Northwind Federal Services
+tier: growth
+lifecycle_stage: steady_state
+stage_entered: 2025-11-03
+
+contract:
+  value_annual: 640000
+  start: 2025-11-01
+  end: 2027-10-31
+  vehicle: SEWP V
+
+owners:
+  accountable: j.park@bah.com
+  presales_lead: s.dube@bah.com
+  delivery_lead: j.park@bah.com
+  transferred_at: 2025-11-03
+  acknowledged_by_accountable: true
+
+attachments: []

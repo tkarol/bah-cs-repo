@@ -1,0 +1,25 @@
+slug: meridian-health
+name: Meridian Health Systems
+tier: strategic
+lifecycle_stage: steady_state
+stage_entered: 2026-02-10
+
+contract:
+  value_annual: 2400000
+  start: 2026-02-01
+  end: 2027-01-31
+  vehicle: GSA MAS
+
+owners:
+  accountable: r.chen@bah.com
+  presales_lead: m.okafor@bah.com
+  delivery_lead: r.chen@bah.com
+  transferred_at: 2026-02-10
+  acknowledged_by_accountable: true
+
+cadence_days: 14
+
+attachments:
+  - title: Executed MSA
+    url: https://sharepoint.example.com/sites/cs/meridian/msa.pdf
+    added: 2026-02-02

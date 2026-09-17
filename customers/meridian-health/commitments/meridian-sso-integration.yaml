@@ -1,0 +1,12 @@
+id: meridian-sso-integration
+title: SAML SSO integration with customer IdP
+origin: presales
+origin_ref: customers/meridian-health/touchpoints/2026-01-14-technical.md
+made_by: m.okafor@bah.com
+made_to: Dana Vance, CTO
+owner: r.chen@bah.com
+due: 2026-05-30
+severity: contractual
+status: complete
+evidence: https://sharepoint.example.com/sites/cs/meridian/sso-acceptance-signed.pdf
+accepted_at_handoff: true

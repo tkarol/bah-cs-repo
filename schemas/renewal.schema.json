@@ -1,0 +1,71 @@
+{
+  "$ref": "#/definitions/renewal",
+  "definitions": {
+    "renewal": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "renewal_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "owner": {
+          "type": "string",
+          "format": "email"
+        },
+        "strategy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "expansion_target": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_step": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next_step_due": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "customer",
+        "renewal_date",
+        "owner",
+        "strategy",
+        "risk_level"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,23 @@
+slug: vertex-defense
+name: Vertex Defense Solutions
+tier: strategic
+lifecycle_stage: handoff
+stage_entered: 2026-07-02
+
+contract:
+  value_annual: 3100000
+  start: 2026-07-01
+  end: 2028-06-30
+  vehicle: OASIS+
+
+owners:
+  accountable: l.novak@bah.com
+  presales_lead: m.okafor@bah.com
+  delivery_lead: l.novak@bah.com
+  transferred_at: 2026-08-28
+  acknowledged_by_accountable: false
+
+attachments:
+  - title: Executed task order
+    url: https://sharepoint.example.com/sites/cs/vertex/task-order.pdf
+    added: 2026-07-01

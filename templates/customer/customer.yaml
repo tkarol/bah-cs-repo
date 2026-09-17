@@ -1,0 +1,19 @@
+# Scaffold copied when a new customer is created from the UI.
+# Placeholders in {{ }} are substituted by the Worker.
+slug: "{{slug}}"
+name: "{{name}}"
+tier: standard
+lifecycle_stage: prospect
+stage_entered: "{{today}}"
+
+contract:
+  value_annual: 0
+  start: "{{today}}"
+  end: "{{today_plus_365}}"
+  vehicle: ""
+
+owners:
+  accountable: "{{creator}}"
+  acknowledged_by_accountable: true
+
+attachments: []

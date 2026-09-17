@@ -1,0 +1,97 @@
+{
+  "$ref": "#/definitions/commitment",
+  "definitions": {
+    "commitment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "type": "string",
+          "enum": [
+            "presales",
+            "onboarding",
+            "steady_state",
+            "renewal"
+          ]
+        },
+        "origin_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "made_by": {
+          "type": "string",
+          "format": "email"
+        },
+        "made_to": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "format": "email"
+        },
+        "due": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "contractual",
+            "committed",
+            "best_effort"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_started",
+            "in_progress",
+            "blocked",
+            "complete",
+            "waived"
+          ]
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "accepted_at_handoff": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "origin",
+        "made_by",
+        "owner",
+        "due",
+        "severity",
+        "status"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

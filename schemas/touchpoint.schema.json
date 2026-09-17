@@ -1,0 +1,51 @@
+{
+  "$ref": "#/definitions/touchpoint",
+  "definitions": {
+    "touchpoint": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "qbr",
+            "check_in",
+            "escalation",
+            "kickoff",
+            "technical",
+            "exec"
+          ]
+        },
+        "attendees_internal": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "email"
+          },
+          "default": []
+        },
+        "attendees_customer": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "date",
+        "type",
+        "summary"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

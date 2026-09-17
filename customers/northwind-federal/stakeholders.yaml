@@ -1,0 +1,8 @@
+customer: northwind-federal
+people:
+  - name: Alan Reyes
+    role: Program Manager
+    email: areyes@northwind.example
+    influence: champion
+    sentiment: neutral
+    last_contact: 2026-06-18

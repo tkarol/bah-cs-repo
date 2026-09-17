@@ -1,0 +1,49 @@
+# Instantiated as handoff.yaml when an account reaches closed-won.
+# Every required item must be complete or waived before the account may enter
+# onboarding. Waivers carry a review_by date and return to the exception feed.
+customer: "{{slug}}"
+opened: "{{today}}"
+target_completion: "{{today_plus_21}}"
+completed: null
+
+items:
+  - id: commitments-transferred
+    title: Every pre-sales commitment accepted or waived by the delivery owner
+    required: true
+    status: incomplete
+    evidence: null
+  - id: exec-sponsor-introduced
+    title: Delivery lead introduced to the customer executive sponsor
+    required: true
+    status: incomplete
+    evidence: null
+  - id: scope-baseline-agreed
+    title: Scope baseline and acceptance criteria agreed in writing
+    required: true
+    status: incomplete
+    evidence: null
+  - id: contract-terms-reviewed
+    title: Delivery team has read the executed contract and SLAs
+    required: true
+    status: incomplete
+    evidence: null
+  - id: technical-environment-confirmed
+    title: Customer technical environment and access confirmed
+    required: true
+    status: incomplete
+    evidence: null
+  - id: kickoff-scheduled
+    title: Kickoff scheduled with named customer attendees
+    required: true
+    status: incomplete
+    evidence: null
+  - id: billing-configured
+    title: Billing and invoicing configured against the contract vehicle
+    required: false
+    status: incomplete
+    evidence: null
+  - id: risks-migrated
+    title: Known risks from the sales cycle recorded as risk records
+    required: true
+    status: incomplete
+    evidence: null

@@ -1,0 +1,60 @@
+customer: vertex-defense
+opened: 2026-07-02
+target_completion: 2026-07-23
+completed: null
+
+items:
+  - id: commitments-transferred
+    title: Every pre-sales commitment accepted or waived by the delivery owner
+    required: true
+    status: incomplete
+    evidence: null
+  - id: exec-sponsor-introduced
+    title: Delivery lead introduced to the customer executive sponsor
+    required: true
+    status: complete
+    evidence: Introduction call held 2026-09-08 with Col. Stroud
+    completed_by: l.novak@bah.com
+    completed_at: 2026-09-08
+  - id: scope-baseline-agreed
+    title: Scope baseline and acceptance criteria agreed in writing
+    required: true
+    status: complete
+    evidence: Signed scope baseline v1.2, SharePoint
+    completed_by: m.okafor@bah.com
+    completed_at: 2026-08-14
+  - id: contract-terms-reviewed
+    title: Delivery team has read the executed contract and SLAs
+    required: true
+    status: complete
+    evidence: Contract walkthrough 2026-07-15
+    completed_by: l.novak@bah.com
+    completed_at: 2026-07-15
+  - id: technical-environment-confirmed
+    title: Customer technical environment and access confirmed
+    required: true
+    status: waived
+    waiver:
+      by: d.whitfield@bah.com
+      reason: Classified enclave access pending clearance processing; unblocked separately.
+      at: 2026-08-20
+      review_by: 2026-10-15
+  - id: kickoff-scheduled
+    title: Kickoff scheduled with named customer attendees
+    required: true
+    status: complete
+    evidence: Kickoff scheduled 2026-09-24, 12 invitees confirmed
+    completed_by: l.novak@bah.com
+    completed_at: 2026-09-05
+  - id: billing-configured
+    title: Billing and invoicing configured against the contract vehicle
+    required: false
+    status: incomplete
+    evidence: null
+  - id: risks-migrated
+    title: Known risks from the sales cycle recorded as risk records
+    required: true
+    status: complete
+    evidence: 1 risk migrated, see risks/
+    completed_by: m.okafor@bah.com
+    completed_at: 2026-07-10

@@ -1,0 +1,20 @@
+slug: cascade-energy
+name: Cascade Energy Partners
+tier: growth
+lifecycle_stage: renewal
+stage_entered: 2026-08-01
+
+contract:
+  value_annual: 980000
+  start: 2025-12-01
+  end: 2026-11-30
+  vehicle: Commercial
+
+owners:
+  accountable: s.dube@bah.com
+  presales_lead: s.dube@bah.com
+  delivery_lead: l.novak@bah.com
+  transferred_at: 2025-12-05
+  acknowledged_by_accountable: true
+
+attachments: []

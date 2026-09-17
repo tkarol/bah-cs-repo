@@ -1,0 +1,14 @@
+customer: vertex-defense
+people:
+  - name: Colonel Ada Stroud (ret.)
+    role: Program Executive
+    email: astroud@vertexdefense.example
+    influence: economic_buyer
+    sentiment: positive
+    last_contact: 2026-09-08
+  - name: Ken Ihara
+    role: Chief Architect
+    email: kihara@vertexdefense.example
+    influence: champion
+    sentiment: neutral
+    last_contact: 2026-09-08

@@ -1,0 +1,28 @@
+{
+  "name": "bah-customer-success",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build -w @cs/web",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p packages/core && tsc --noEmit -p packages/worker && tsc --noEmit -p packages/web",
+    "index": "node --experimental-strip-types packages/core/src/cli/build-index.ts",
+    "sweep": "node --experimental-strip-types packages/core/src/cli/build-index.ts --snapshot",
+    "validate": "node --experimental-strip-types packages/core/src/cli/validate.ts",
+    "schemas": "node --experimental-strip-types packages/core/src/cli/emit-schemas.ts",
+    "dev:web": "npm run dev -w @cs/web",
+    "dev:worker": "npm run dev -w @cs/worker"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.3",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}
