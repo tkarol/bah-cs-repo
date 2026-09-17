@@ -2,368 +2,24 @@
   "schema_version": 1,
   "as_of": "2026-09-17",
   "totals": {
-    "customers": 7,
+    "customers": 3,
     "by_band": {
-      "green": 3,
-      "amber": 3,
-      "red": 1
+      "green": 2,
+      "amber": 1,
+      "red": 0
     },
-    "arr_total": 11220000,
-    "arr_not_green": 6470000,
+    "arr_total": 7400000,
+    "arr_not_green": 3100000,
     "exceptions_by_severity": {
-      "critical": 2,
-      "high": 6,
-      "medium": 6,
+      "critical": 0,
+      "high": 2,
+      "medium": 3,
       "low": 0
     },
-    "open_commitments_past_due": 3,
-    "open_risks": 4
+    "open_commitments_past_due": 0,
+    "open_risks": 1
   },
   "customers": [
-    {
-      "slug": "atlas-logistics",
-      "name": "Atlas Logistics Group",
-      "tier": "strategic",
-      "lifecycle_stage": "onboarding",
-      "phase": "postsales",
-      "stage_entered": "2026-05-20",
-      "days_in_stage": 120,
-      "contract": {
-        "value_annual": 1750000,
-        "start": "2026-05-01",
-        "end": "2027-04-30",
-        "days_to_renewal": 225
-      },
-      "accountable_owner": "t.alvarez@bah.com",
-      "delivery_lead": "t.alvarez@bah.com",
-      "presales_lead": "m.okafor@bah.com",
-      "health": {
-        "score": 0,
-        "band": "red",
-        "signals": [
-          {
-            "id": "contact_decay",
-            "label": "Contact decay",
-            "fired": true,
-            "points": 5,
-            "severity": "medium",
-            "detail": "No contact in 20d; strategic cadence is 14d.",
-            "since": "2026-08-28",
-            "refs": [
-              "customers/atlas-logistics/touchpoints/2026-08-28-escalation.md"
-            ]
-          },
-          {
-            "id": "past_due_commitments",
-            "label": "Past-due commitments",
-            "fired": true,
-            "points": 30,
-            "severity": "critical",
-            "detail": "2 commitments past due, including a contractual one. Oldest: \"Migrate legacy WMS data with zero downtime over a weekend cutover\" due 2026-08-15.",
-            "since": "2026-08-15",
-            "refs": [
-              "customers/atlas-logistics/commitments/atlas-custom-reporting.yaml",
-              "customers/atlas-logistics/commitments/atlas-legacy-wms-migration.yaml"
-            ]
-          },
-          {
-            "id": "handoff_debt",
-            "label": "Handoff debt",
-            "fired": true,
-            "points": 34,
-            "severity": "high",
-            "detail": "2 required item(s) incomplete; 1 waiver(s) past review date. Gate opened 2026-05-01, target 2026-05-22.",
-            "since": "2026-05-22",
-            "refs": [
-              "customers/atlas-logistics/handoff.yaml"
-            ]
-          },
-          {
-            "id": "stage_stagnation",
-            "label": "Stage stagnation",
-            "fired": true,
-            "points": 8,
-            "severity": "medium",
-            "detail": "120d in \"onboarding\", 30d beyond the 90d band.",
-            "since": "2026-05-20",
-            "refs": [
-              "customers/atlas-logistics/customer.yaml"
-            ]
-          },
-          {
-            "id": "risk_aging",
-            "label": "Risk aging",
-            "fired": true,
-            "points": 30,
-            "severity": "critical",
-            "detail": "2 open risks. Oldest: \"IT director favoured the incumbent vendor and is withholding environment access\" (critical) open 107d.",
-            "since": "2026-06-02",
-            "refs": [
-              "customers/atlas-logistics/risks/atlas-cutover-window.yaml",
-              "customers/atlas-logistics/risks/atlas-it-director-opposed.yaml"
-            ]
-          },
-          {
-            "id": "ownership_gap",
-            "label": "Ownership gap",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Owned by t.alvarez@bah.com, acknowledged.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "renewal_exposure",
-            "label": "Renewal exposure",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Renewal 225d out; no plan required yet.",
-            "since": null,
-            "refs": []
-          }
-        ]
-      },
-      "counts": {
-        "commitments_total": 3,
-        "commitments_open": 3,
-        "commitments_past_due": 2,
-        "risks_open": 2,
-        "touchpoints": 2,
-        "stakeholders": 2
-      },
-      "last_contact": "2026-08-28",
-      "days_since_contact": 20,
-      "cadence_days": 14,
-      "handoff": {
-        "total": 8,
-        "complete": 5,
-        "waived": 1,
-        "required_incomplete": 2,
-        "expired_waivers": 1,
-        "waiver_rate": 0.125
-      },
-      "renewal_on_file": false
-    },
-    {
-      "slug": "cascade-energy",
-      "name": "Cascade Energy Partners",
-      "tier": "growth",
-      "lifecycle_stage": "renewal",
-      "phase": "postsales",
-      "stage_entered": "2026-08-01",
-      "days_in_stage": 47,
-      "contract": {
-        "value_annual": 980000,
-        "start": "2025-12-01",
-        "end": "2026-11-30",
-        "days_to_renewal": 74
-      },
-      "accountable_owner": "s.dube@bah.com",
-      "delivery_lead": "l.novak@bah.com",
-      "presales_lead": "s.dube@bah.com",
-      "health": {
-        "score": 67,
-        "band": "amber",
-        "signals": [
-          {
-            "id": "contact_decay",
-            "label": "Contact decay",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Last contact 15d ago, within 30d cadence.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "past_due_commitments",
-            "label": "Past-due commitments",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No commitments past due.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "handoff_debt",
-            "label": "Handoff debt",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No handoff gate open.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "stage_stagnation",
-            "label": "Stage stagnation",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "47d in \"renewal\", within 120d band.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "risk_aging",
-            "label": "Risk aging",
-            "fired": true,
-            "points": 13,
-            "severity": "medium",
-            "detail": "1 open risk. Oldest: \"Executive sponsor who signed the original deal has left the company\" (high) open 43d.",
-            "since": "2026-08-05",
-            "refs": [
-              "customers/cascade-energy/risks/cascade-sponsor-departed.yaml"
-            ]
-          },
-          {
-            "id": "ownership_gap",
-            "label": "Ownership gap",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Owned by s.dube@bah.com, acknowledged.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "renewal_exposure",
-            "label": "Renewal exposure",
-            "fired": true,
-            "points": 20,
-            "severity": "high",
-            "detail": "Renewal in 74d with no renewal.yaml on file.",
-            "since": "2026-11-30",
-            "refs": [
-              "customers/cascade-energy/customer.yaml"
-            ]
-          }
-        ]
-      },
-      "counts": {
-        "commitments_total": 0,
-        "commitments_open": 0,
-        "commitments_past_due": 0,
-        "risks_open": 1,
-        "touchpoints": 1,
-        "stakeholders": 2
-      },
-      "last_contact": "2026-09-02",
-      "days_since_contact": 15,
-      "cadence_days": 30,
-      "handoff": null,
-      "renewal_on_file": false
-    },
-    {
-      "slug": "civic-transit-authority",
-      "name": "Civic Transit Authority",
-      "tier": "growth",
-      "lifecycle_stage": "prospect",
-      "phase": "presales",
-      "stage_entered": "2026-09-02",
-      "days_in_stage": 15,
-      "contract": {
-        "value_annual": 450000,
-        "start": "2027-01-01",
-        "end": "2027-12-31",
-        "days_to_renewal": 470
-      },
-      "accountable_owner": "s.dube@bah.com",
-      "delivery_lead": null,
-      "presales_lead": "s.dube@bah.com",
-      "health": {
-        "score": 100,
-        "band": "green",
-        "signals": [
-          {
-            "id": "contact_decay",
-            "label": "Contact decay",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Last contact 15d ago, within 30d cadence.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "past_due_commitments",
-            "label": "Past-due commitments",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No commitments past due.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "handoff_debt",
-            "label": "Handoff debt",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No handoff gate open.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "stage_stagnation",
-            "label": "Stage stagnation",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "15d in \"prospect\", within 90d band.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "risk_aging",
-            "label": "Risk aging",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No open risks.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "ownership_gap",
-            "label": "Ownership gap",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Owned by s.dube@bah.com, acknowledged.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "renewal_exposure",
-            "label": "Renewal exposure",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Renewal 470d out; no plan required yet.",
-            "since": null,
-            "refs": []
-          }
-        ]
-      },
-      "counts": {
-        "commitments_total": 0,
-        "commitments_open": 0,
-        "commitments_past_due": 0,
-        "risks_open": 0,
-        "touchpoints": 1,
-        "stakeholders": 1
-      },
-      "last_contact": "2026-09-02",
-      "days_since_contact": 15,
-      "cadence_days": 30,
-      "handoff": null,
-      "renewal_on_file": false
-    },
     {
       "slug": "harbor-point-health",
       "name": "Harbor Point Health Network",
@@ -463,7 +119,7 @@
         "commitments_past_due": 0,
         "risks_open": 0,
         "touchpoints": 1,
-        "stakeholders": 2
+        "stakeholders": 1
       },
       "last_contact": "2026-09-11",
       "days_since_contact": 6,
@@ -567,127 +223,16 @@
         ]
       },
       "counts": {
-        "commitments_total": 2,
-        "commitments_open": 1,
-        "commitments_past_due": 0,
-        "risks_open": 0,
-        "touchpoints": 2,
-        "stakeholders": 2
-      },
-      "last_contact": "2026-09-10",
-      "days_since_contact": 7,
-      "cadence_days": 14,
-      "handoff": null,
-      "renewal_on_file": false
-    },
-    {
-      "slug": "northwind-federal",
-      "name": "Northwind Federal Services",
-      "tier": "growth",
-      "lifecycle_stage": "steady_state",
-      "phase": "postsales",
-      "stage_entered": "2025-11-03",
-      "days_in_stage": 318,
-      "contract": {
-        "value_annual": 640000,
-        "start": "2025-11-01",
-        "end": "2027-10-31",
-        "days_to_renewal": 409
-      },
-      "accountable_owner": "j.park@bah.com",
-      "delivery_lead": "j.park@bah.com",
-      "presales_lead": "s.dube@bah.com",
-      "health": {
-        "score": 65,
-        "band": "amber",
-        "signals": [
-          {
-            "id": "contact_decay",
-            "label": "Contact decay",
-            "fired": true,
-            "points": 25,
-            "severity": "high",
-            "detail": "No contact in 91d; growth cadence is 30d.",
-            "since": "2026-06-18",
-            "refs": [
-              "customers/northwind-federal/touchpoints/2026-06-18-check-in.md"
-            ]
-          },
-          {
-            "id": "past_due_commitments",
-            "label": "Past-due commitments",
-            "fired": true,
-            "points": 10,
-            "severity": "high",
-            "detail": "1 commitment past due. Oldest: \"Raise API rate limit to 500 req/s for the reporting integration\" due 2026-07-31.",
-            "since": "2026-07-31",
-            "refs": [
-              "customers/northwind-federal/commitments/northwind-api-rate-increase.yaml"
-            ]
-          },
-          {
-            "id": "handoff_debt",
-            "label": "Handoff debt",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No handoff gate open.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "stage_stagnation",
-            "label": "Stage stagnation",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Stage \"steady_state\" has no expected exit.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "risk_aging",
-            "label": "Risk aging",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No open risks.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "ownership_gap",
-            "label": "Ownership gap",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Owned by j.park@bah.com, acknowledged.",
-            "since": null,
-            "refs": []
-          },
-          {
-            "id": "renewal_exposure",
-            "label": "Renewal exposure",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Renewal 409d out; no plan required yet.",
-            "since": null,
-            "refs": []
-          }
-        ]
-      },
-      "counts": {
         "commitments_total": 1,
-        "commitments_open": 1,
-        "commitments_past_due": 1,
+        "commitments_open": 0,
+        "commitments_past_due": 0,
         "risks_open": 0,
         "touchpoints": 1,
         "stakeholders": 1
       },
-      "last_contact": "2026-06-18",
-      "days_since_contact": 91,
-      "cadence_days": 30,
+      "last_contact": "2026-09-10",
+      "days_since_contact": 7,
+      "cadence_days": 14,
       "handoff": null,
       "renewal_on_file": false
     },
@@ -797,8 +342,8 @@
         "commitments_open": 2,
         "commitments_past_due": 0,
         "risks_open": 1,
-        "touchpoints": 2,
-        "stakeholders": 2
+        "touchpoints": 1,
+        "stakeholders": 1
       },
       "last_contact": "2026-09-08",
       "days_since_contact": 9,

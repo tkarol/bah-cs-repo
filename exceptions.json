@@ -1,105 +1,8 @@
 {
   "schema_version": 1,
   "as_of": "2026-09-17",
-  "count": 14,
+  "count": 5,
   "exceptions": [
-    {
-      "key": "atlas-logistics:risk_aging",
-      "slug": "atlas-logistics",
-      "customer": "Atlas Logistics Group",
-      "tier": "strategic",
-      "lifecycle_stage": "onboarding",
-      "accountable_owner": "t.alvarez@bah.com",
-      "signal": "risk_aging",
-      "label": "Risk aging",
-      "detail": "2 open risks. Oldest: \"IT director favoured the incumbent vendor and is withholding environment access\" (critical) open 107d.",
-      "severity": "critical",
-      "points": 30,
-      "since": "2026-06-02",
-      "age_days": 107,
-      "arr": 1750000,
-      "refs": [
-        "customers/atlas-logistics/risks/atlas-cutover-window.yaml",
-        "customers/atlas-logistics/risks/atlas-it-director-opposed.yaml"
-      ]
-    },
-    {
-      "key": "atlas-logistics:past_due_commitments",
-      "slug": "atlas-logistics",
-      "customer": "Atlas Logistics Group",
-      "tier": "strategic",
-      "lifecycle_stage": "onboarding",
-      "accountable_owner": "t.alvarez@bah.com",
-      "signal": "past_due_commitments",
-      "label": "Past-due commitments",
-      "detail": "2 commitments past due, including a contractual one. Oldest: \"Migrate legacy WMS data with zero downtime over a weekend cutover\" due 2026-08-15.",
-      "severity": "critical",
-      "points": 30,
-      "since": "2026-08-15",
-      "age_days": 33,
-      "arr": 1750000,
-      "refs": [
-        "customers/atlas-logistics/commitments/atlas-custom-reporting.yaml",
-        "customers/atlas-logistics/commitments/atlas-legacy-wms-migration.yaml"
-      ]
-    },
-    {
-      "key": "atlas-logistics:handoff_debt",
-      "slug": "atlas-logistics",
-      "customer": "Atlas Logistics Group",
-      "tier": "strategic",
-      "lifecycle_stage": "onboarding",
-      "accountable_owner": "t.alvarez@bah.com",
-      "signal": "handoff_debt",
-      "label": "Handoff debt",
-      "detail": "2 required item(s) incomplete; 1 waiver(s) past review date. Gate opened 2026-05-01, target 2026-05-22.",
-      "severity": "high",
-      "points": 34,
-      "since": "2026-05-22",
-      "age_days": 118,
-      "arr": 1750000,
-      "refs": [
-        "customers/atlas-logistics/handoff.yaml"
-      ]
-    },
-    {
-      "key": "northwind-federal:contact_decay",
-      "slug": "northwind-federal",
-      "customer": "Northwind Federal Services",
-      "tier": "growth",
-      "lifecycle_stage": "steady_state",
-      "accountable_owner": "j.park@bah.com",
-      "signal": "contact_decay",
-      "label": "Contact decay",
-      "detail": "No contact in 91d; growth cadence is 30d.",
-      "severity": "high",
-      "points": 25,
-      "since": "2026-06-18",
-      "age_days": 91,
-      "arr": 640000,
-      "refs": [
-        "customers/northwind-federal/touchpoints/2026-06-18-check-in.md"
-      ]
-    },
-    {
-      "key": "cascade-energy:renewal_exposure",
-      "slug": "cascade-energy",
-      "customer": "Cascade Energy Partners",
-      "tier": "growth",
-      "lifecycle_stage": "renewal",
-      "accountable_owner": "s.dube@bah.com",
-      "signal": "renewal_exposure",
-      "label": "Renewal exposure",
-      "detail": "Renewal in 74d with no renewal.yaml on file.",
-      "severity": "high",
-      "points": 20,
-      "since": "2026-11-30",
-      "age_days": null,
-      "arr": 980000,
-      "refs": [
-        "customers/cascade-energy/customer.yaml"
-      ]
-    },
     {
       "key": "vertex-defense:stage_stagnation",
       "slug": "vertex-defense",
@@ -136,44 +39,6 @@
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
-      ]
-    },
-    {
-      "key": "northwind-federal:past_due_commitments",
-      "slug": "northwind-federal",
-      "customer": "Northwind Federal Services",
-      "tier": "growth",
-      "lifecycle_stage": "steady_state",
-      "accountable_owner": "j.park@bah.com",
-      "signal": "past_due_commitments",
-      "label": "Past-due commitments",
-      "detail": "1 commitment past due. Oldest: \"Raise API rate limit to 500 req/s for the reporting integration\" due 2026-07-31.",
-      "severity": "high",
-      "points": 10,
-      "since": "2026-07-31",
-      "age_days": 48,
-      "arr": 640000,
-      "refs": [
-        "customers/northwind-federal/commitments/northwind-api-rate-increase.yaml"
-      ]
-    },
-    {
-      "key": "cascade-energy:risk_aging",
-      "slug": "cascade-energy",
-      "customer": "Cascade Energy Partners",
-      "tier": "growth",
-      "lifecycle_stage": "renewal",
-      "accountable_owner": "s.dube@bah.com",
-      "signal": "risk_aging",
-      "label": "Risk aging",
-      "detail": "1 open risk. Oldest: \"Executive sponsor who signed the original deal has left the company\" (high) open 43d.",
-      "severity": "medium",
-      "points": 13,
-      "since": "2026-08-05",
-      "age_days": 43,
-      "arr": 980000,
-      "refs": [
-        "customers/cascade-energy/risks/cascade-sponsor-departed.yaml"
       ]
     },
     {
@@ -215,25 +80,6 @@
       ]
     },
     {
-      "key": "atlas-logistics:stage_stagnation",
-      "slug": "atlas-logistics",
-      "customer": "Atlas Logistics Group",
-      "tier": "strategic",
-      "lifecycle_stage": "onboarding",
-      "accountable_owner": "t.alvarez@bah.com",
-      "signal": "stage_stagnation",
-      "label": "Stage stagnation",
-      "detail": "120d in \"onboarding\", 30d beyond the 90d band.",
-      "severity": "medium",
-      "points": 8,
-      "since": "2026-05-20",
-      "age_days": 120,
-      "arr": 1750000,
-      "refs": [
-        "customers/atlas-logistics/customer.yaml"
-      ]
-    },
-    {
       "key": "vertex-defense:risk_aging",
       "slug": "vertex-defense",
       "customer": "Vertex Defense Solutions",
@@ -250,25 +96,6 @@
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/risks/vertex-clearance-timeline.yaml"
-      ]
-    },
-    {
-      "key": "atlas-logistics:contact_decay",
-      "slug": "atlas-logistics",
-      "customer": "Atlas Logistics Group",
-      "tier": "strategic",
-      "lifecycle_stage": "onboarding",
-      "accountable_owner": "t.alvarez@bah.com",
-      "signal": "contact_decay",
-      "label": "Contact decay",
-      "detail": "No contact in 20d; strategic cadence is 14d.",
-      "severity": "medium",
-      "points": 5,
-      "since": "2026-08-28",
-      "age_days": 20,
-      "arr": 1750000,
-      "refs": [
-        "customers/atlas-logistics/touchpoints/2026-08-28-escalation.md"
       ]
     }
   ]

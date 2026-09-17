@@ -6,9 +6,3 @@ people:
     influence: economic_buyer
     sentiment: positive
     last_contact: 2026-09-10
-  - name: Priya Raman
-    role: Director of Platform Engineering
-    email: praman@meridianhealth.example
-    influence: champion
-    sentiment: positive
-    last_contact: 2026-09-10

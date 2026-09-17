@@ -1,28 +1,18 @@
-# Role assignments. Kept in the repo like everything else, so a permission
-# change is a reviewable commit rather than a console click nobody can audit.
+# Who can do what, once Cloudflare Access has let them in.
+#
+# Managed from the People page in the app. Hand edits are fine too.
 #
 # Roles (docs/ARCHITECTURE.md §8):
 #   csm         read all; write only accounts they own
 #   presales    read all; write presales-stage accounts and commitments they originate
 #   leadership  read all; waive gate items; reassign ownership
-#   admin       schema and template changes
-# Anyone Cloudflare Access lets in (any @bah.com address) who is not listed here
-# gets default_role. Access decides who can sign in; this file decides what they
-# can do once inside.
+#   admin       everything, plus managing this file
+#
+# Anyone Access lets in who is not listed here gets default_role.
+#
+# Deliberately empty: add yourself as an admin from the People page on first
+# sign-in. Until one admin exists, anyone who can sign in may edit that page.
 default_role: csm
 
 users:
-  - email: d.whitfield@bah.com
-    role: leadership
-  - email: r.chen@bah.com
-    role: csm
-  - email: t.alvarez@bah.com
-    role: csm
-  - email: j.park@bah.com
-    role: csm
-  - email: l.novak@bah.com
-    role: csm
-  - email: s.dube@bah.com
-    role: presales
-  - email: m.okafor@bah.com
-    role: presales
+  []

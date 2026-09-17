@@ -268,7 +268,7 @@ open https://bah-cs-repo.<your-subdomain>.workers.dev
 await (await fetch('/api/me')).json()
 
 # 3. The gate is real. Try to advance an account with an unmet gate:
-await (await fetch('/api/customers/atlas-logistics/transition', {
+await (await fetch('/api/customers/vertex-defense/transition', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({ to: 'onboarding' }),

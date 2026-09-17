@@ -1,11 +1,5 @@
 customer: harbor-point-health
 people:
-  - name: Yusuf Demir
-    role: Chief Information Officer
-    email: ydemir@harborpoint.example
-    influence: economic_buyer
-    sentiment: positive
-    last_contact: 2026-09-11
   - name: Rachel Lindqvist
     role: Director of Clinical Systems
     email: rlindqvist@harborpoint.example
