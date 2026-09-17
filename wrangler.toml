@@ -25,12 +25,19 @@ run_worker_first = ["/api/*"]
 [vars]
 GITHUB_REPO = "tkarol/bah-cs-repo"
 GITHUB_BRANCH = "main"
+
+# Identifiers for the GitHub App that commits customer files. Neither is
+# sensitive -- they name an app and an installation, and are useless without the
+# private key -- so they live here rather than in the secrets UI. That leaves
+# exactly one secret to configure.
+GITHUB_APP_ID = "4978398"
+GITHUB_INSTALLATION_ID = "162491853"
 # The Cloudflare Access application audience tag and team domain. Not secrets,
 # but they must match the Access app exactly or every request is rejected.
 ACCESS_AUD = ""
 ACCESS_TEAM_DOMAIN = ""
 
-# Secrets, set with `wrangler secret put <NAME>`:
-#   GITHUB_APP_ID
-#   GITHUB_INSTALLATION_ID
-#   GITHUB_PRIVATE_KEY   (PKCS#8 PEM)
+# The only secret. Paste the .pem exactly as GitHub downloads it -- the Worker
+# accepts PKCS#1 ("BEGIN RSA PRIVATE KEY") and converts it internally, and
+# ignores whitespace, so no openssl step and no newline fiddling.
+#   GITHUB_PRIVATE_KEY

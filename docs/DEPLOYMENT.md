@@ -63,19 +63,15 @@ per request inside the Worker and never reaches the browser.
 8. **Install App** → this repository only. The URL of the resulting settings page
    ends in the **Installation ID**: `.../installations/<INSTALLATION_ID>`.
 
-### Convert the private key — this step is not optional
+### Get the private key
 
-GitHub issues **PKCS#1** (`-----BEGIN RSA PRIVATE KEY-----`). The Web Crypto API
-in Workers only imports **PKCS#8** (`-----BEGIN PRIVATE KEY-----`). Skip this and
-every write fails with an opaque import error.
+**Private keys → Generate a private key.** A `.pem` downloads. That is all —
+no conversion.
 
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt \
-  -in your-app.private-key.pem \
-  -out github-app.pk8.pem
-
-head -1 github-app.pk8.pem   # must read: -----BEGIN PRIVATE KEY-----
-```
+GitHub issues PKCS#1 (`BEGIN RSA PRIVATE KEY`) and Web Crypto only imports
+PKCS#8, so this used to require an `openssl` step. The Worker now does that
+conversion itself (`packages/worker/src/pem.ts`), and ignores whitespace, so you
+can paste the file straight into the dashboard even if the newlines get mangled.
 
 ---
 
@@ -112,16 +108,21 @@ Load the `*.workers.dev` URL it prints. Static pages render; `/api/*` returns
 **fails closed** when Access is unset rather than serving customer data to
 anyone who finds the URL. Step 4 fixes it.
 
-Now set the secrets:
+Now set the one secret. The App ID and Installation ID are not sensitive — they
+name an app and an installation and are useless without the key — so they live
+in `wrangler.toml` as ordinary variables. Only the private key is a secret:
+
+**Worker → Settings → Variables and Secrets → + Add → Type: Secret**
+
+| Name | Value |
+|---|---|
+| `GITHUB_PRIVATE_KEY` | the whole `.pem`, including the BEGIN and END lines |
+
+Or from the command line:
 
 ```bash
-npx wrangler secret put GITHUB_APP_ID           -c packages/worker/wrangler.toml
-npx wrangler secret put GITHUB_INSTALLATION_ID  -c packages/worker/wrangler.toml
-npx wrangler secret put GITHUB_PRIVATE_KEY      -c packages/worker/wrangler.toml < github-app.pk8.pem
+npx wrangler secret put GITHUB_PRIVATE_KEY < your-app.private-key.pem
 ```
-
-The last one reads the file directly — pasting a multi-line PEM at a prompt
-mangles the newlines.
 
 ---
 
@@ -268,8 +269,8 @@ repository, and that `index.json` is rebuilt by the Action within a minute or so
 |---|---|
 | `500 Access is not configured` | `ACCESS_AUD` / `ACCESS_TEAM_DOMAIN` still empty. Working as designed — it fails closed. |
 | `401 Access token was issued for a different application` | The AUD tag does not match the Access app. Recopy it. |
-| Writes fail with a key import error | The private key is still PKCS#1. Convert it (step 2). |
-| `502 Upstream repository error` | App ID, Installation ID, or the App's `Contents: write` permission. |
+| `GITHUB_PRIVATE_KEY could not be imported` | The value is not the App's private key, or was edited. Re-download and paste it unmodified — both PKCS#1 and PKCS#8 are accepted. |
+| `502 Upstream repository error` | Wrong App ID or Installation ID in `wrangler.toml`, or the App lacks `Contents: write`. |
 | `409 … changed since you loaded it` | Someone else edited the same file. Intended — reload and reapply. |
 | Dashboard is stale after an edit | The index Action has not finished. Single-customer pages read the files directly and are always current. |
 | The index never rebuilds | Branch protection is blocking the Action's commit (step 6). |

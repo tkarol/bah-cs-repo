@@ -6,7 +6,8 @@
  * app with the acting human recorded in a commit trailer, so `git log` remains
  * a real audit trail.
  */
-import { importPkcs8, signRs256 } from './jwt.ts';
+import { signRs256 } from './jwt.ts';
+import { importSigningKey } from './pem.ts';
 import type { Env } from './env.ts';
 
 const API = 'https://api.github.com';
@@ -30,7 +31,7 @@ async function installationToken(env: Env): Promise<string> {
   if (tokenCache && tokenCache.expiresAt - 60_000 > Date.now()) return tokenCache.token;
 
   const now = Math.floor(Date.now() / 1000);
-  const key = await importPkcs8(env.GITHUB_PRIVATE_KEY);
+  const key = await importSigningKey(env.GITHUB_PRIVATE_KEY);
   const appJwt = await signRs256(
     { iat: now - 60, exp: now + 540, iss: env.GITHUB_APP_ID },
     key,

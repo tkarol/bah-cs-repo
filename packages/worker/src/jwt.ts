@@ -25,21 +25,6 @@ export function decodeSegment<T>(segment: string): T {
   return JSON.parse(new TextDecoder().decode(b64urlToBytes(segment))) as T;
 }
 
-/** Imports a PKCS#8 PEM private key for RS256 signing. */
-export async function importPkcs8(pem: string): Promise<CryptoKey> {
-  const body = pem
-    .replace(/-----BEGIN [^-]+-----/, '')
-    .replace(/-----END [^-]+-----/, '')
-    .replace(/\s+/g, '');
-  return crypto.subtle.importKey(
-    'pkcs8',
-    b64urlToBytes(body.replace(/\+/g, '-').replace(/\//g, '_')),
-    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
-    false,
-    ['sign'],
-  );
-}
-
 export async function signRs256(payload: unknown, key: CryptoKey): Promise<string> {
   const head = b64urlJson({ alg: 'RS256', typ: 'JWT' });
   const body = b64urlJson(payload);
