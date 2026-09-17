@@ -1,0 +1,20 @@
+name = "cs-api"
+main = "src/index.ts"
+compatibility_date = "2024-12-18"
+compatibility_flags = ["nodejs_compat"]
+
+# No D1, KV, R2 or Queue bindings: the repository is the backend, and the index
+# is a file. See docs/ARCHITECTURE.md §3.
+
+[vars]
+GITHUB_REPO = "tkarol/bah-cs-repo"
+GITHUB_BRANCH = "main"
+# The Cloudflare Access application audience tag. Not a secret, but it must
+# match the Access app exactly or every request will be rejected.
+ACCESS_AUD = ""
+ACCESS_TEAM_DOMAIN = ""
+
+# Secrets, set with `wrangler secret put`:
+#   GITHUB_APP_ID
+#   GITHUB_INSTALLATION_ID
+#   GITHUB_PRIVATE_KEY   (PKCS#8 PEM)

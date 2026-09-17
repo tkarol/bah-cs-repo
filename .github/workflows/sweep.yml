@@ -1,0 +1,66 @@
+# The nightly sweep. This is the mechanism behind invariant P6 — the system
+# finds problems, people do not have to remember to escalate.
+#
+# It runs on a schedule rather than only on push because most exceptions are
+# time-based: a commitment goes past due, a waiver expires, contact decays.
+# Those fire with no data change at all, so a push-triggered rebuild alone
+# would silently miss exactly the failures this system exists to catch.
+name: Sweep
+
+on:
+  schedule:
+    # 07:00 UTC daily — before the US working day.
+    - cron: '0 7 * * *'
+    # 12:00 UTC Monday — the weekly leadership roll-up.
+    - cron: '0 12 * * 1'
+  workflow_dispatch:
+    inputs:
+      digest:
+        description: 'Also send the leadership digest'
+        type: boolean
+        default: false
+
+concurrency:
+  group: sweep
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+
+      - name: Recompute health and append the daily snapshot
+        run: npm run sweep
+
+      - name: Commit index, exceptions and snapshot
+        run: |
+          if git diff --quiet -- index.json exceptions.json history/; then
+            echo "Nothing changed overnight."
+            exit 0
+          fi
+          git config user.name  "cs-indexer[bot]"
+          git config user.email "cs-indexer@users.noreply.github.com"
+          git add index.json exceptions.json history/
+          git commit -m "chore(sweep): nightly health recompute"
+          git push
+
+      - name: Leadership digest
+        if: github.event.schedule == '0 12 * * 1' || inputs.digest
+        env:
+          DIGEST_WEBHOOK: ${{ secrets.DIGEST_WEBHOOK }}
+        run: node --experimental-strip-types packages/core/src/cli/digest.ts --scope=leadership
+
+      - name: Per-owner nudges
+        if: github.event.schedule == '0 12 * * 1' || inputs.digest
+        env:
+          DIGEST_WEBHOOK: ${{ secrets.DIGEST_OWNER_WEBHOOK }}
+        run: node --experimental-strip-types packages/core/src/cli/digest.ts --scope=owners

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-17T11:52:10.809Z",
+  "generated_at": "2026-09-17T11:55:18.341Z",
   "as_of": "2026-09-17",
   "count": 14,
   "exceptions": [
@@ -95,7 +95,7 @@
       "severity": "high",
       "points": 20,
       "since": "2026-11-30",
-      "age_days": -74,
+      "age_days": null,
       "arr": 980000,
       "refs": [
         "customers/cascade-energy/customer.yaml"
@@ -209,7 +209,7 @@
       "severity": "medium",
       "points": 8,
       "since": "2027-01-31",
-      "age_days": -136,
+      "age_days": null,
       "arr": 2400000,
       "refs": [
         "customers/meridian-health/customer.yaml"

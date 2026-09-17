@@ -88,6 +88,11 @@ export interface ExceptionFeed {
 
 const SEVERITY_RANK: Record<Severity, number> = { critical: 0, high: 1, medium: 2, low: 3 };
 
+function nonNegativeAge(since: string, asOf: Date): number | null {
+  const age = daysSince(since, asOf);
+  return age >= 0 ? age : null;
+}
+
 const OPEN_STATUSES = new Set(['not_started', 'in_progress', 'blocked']);
 
 export function buildEntry(record: CustomerRecord, asOf: Date): IndexEntry {
@@ -186,7 +191,10 @@ export function buildExceptions(index: CustomerIndex, asOf: Date): ExceptionFeed
         severity: signal.severity,
         points: signal.points,
         since: signal.since,
-        age_days: signal.since ? daysSince(signal.since, asOf) : null,
+        // `since` can be a future date (a renewal that has not happened yet), and
+        // "how long has this been true" is meaningless for those. Null rather
+        // than a negative number, so the UI simply omits the age.
+        age_days: signal.since ? nonNegativeAge(signal.since, asOf) : null,
         arr: c.contract.value_annual,
         refs: signal.refs,
       });

@@ -18,7 +18,8 @@
     "validate": "node --experimental-strip-types packages/core/src/cli/validate.ts",
     "schemas": "node --experimental-strip-types packages/core/src/cli/emit-schemas.ts",
     "dev:web": "npm run dev -w @cs/web",
-    "dev:worker": "npm run dev -w @cs/worker"
+    "dev:worker": "npm run dev -w @cs/worker",
+    "digest": "node --experimental-strip-types packages/core/src/cli/digest.ts"
   },
   "devDependencies": {
     "@types/node": "^22.20.3",

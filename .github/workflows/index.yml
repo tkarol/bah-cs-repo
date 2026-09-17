@@ -1,0 +1,57 @@
+# Rebuilds index.json and exceptions.json whenever customer data changes.
+#
+# The `paths` filter is load-bearing: this workflow commits index.json back to
+# the repo, which is itself a push. Without the filter that push would retrigger
+# this workflow forever. Data lives under customers/, generated output does not,
+# so scoping the trigger to customers/** breaks the loop by construction.
+name: Build index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'customers/**'
+      - 'packages/core/src/**'
+  workflow_dispatch:
+
+concurrency:
+  # A burst of edits should converge on one rebuild of the final state rather
+  # than racing each other to commit.
+  group: build-index
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate customer files
+        run: npm run validate
+      - name: Rebuild index
+        run: npm run index
+      - name: Commit generated index
+        run: |
+          if git diff --quiet -- index.json exceptions.json; then
+            echo "Index unchanged."
+            exit 0
+          fi
+          git config user.name  "cs-indexer[bot]"
+          git config user.email "cs-indexer@users.noreply.github.com"
+          git add index.json exceptions.json
+          git commit -m "chore(index): rebuild from customer data"
+          # Data may have landed while we were building; rebase and retry rather
+          # than clobbering it.
+          for attempt in 1 2 3; do
+            if git push; then exit 0; fi
+            git pull --rebase origin main && npm run index && git add index.json exceptions.json
+            git commit --amend --no-edit
+          done
+          exit 1

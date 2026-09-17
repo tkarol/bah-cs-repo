@@ -1,0 +1,33 @@
+# Schema validation on every PR. This is what separates "files as a database"
+# from "a folder of YAML that slowly rots" — see docs/ARCHITECTURE.md §4.
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate customer files
+        run: npm run validate
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm test
+      - name: Confirm the committed index matches the data
+        run: |
+          npm run index
+          if ! git diff --quiet -- index.json exceptions.json; then
+            echo "::error::index.json is stale. Run 'npm run index' and commit the result."
+            git diff --stat -- index.json exceptions.json
+            exit 1
+          fi
