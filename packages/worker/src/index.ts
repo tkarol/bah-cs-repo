@@ -27,8 +27,17 @@ import {
 import { z } from 'zod';
 import { parse as parseYamlText } from 'yaml';
 import { AuthError, verifyAccess, type Identity } from './access.ts';
-import { denyReason, roleFor, type Actor } from './authz.ts';
-import { GitHubError, listCommits } from './github.ts';
+import {
+  denyReason,
+  invalidateRoles,
+  loadRoles,
+  needsBootstrap,
+  roleFor,
+  ROLES,
+  type Actor,
+  type Role,
+} from './authz.ts';
+import { getFile, GitHubError, listCommits } from './github.ts';
 import { fileIndexProvider, type IndexProvider } from './index-provider.ts';
 import { githubSource } from './source.ts';
 import { BadRequest, StaleWrite, validateWith, writeText, writeYaml } from './write.ts';
@@ -128,10 +137,15 @@ app.get('/api/exceptions', async (c) => {
 });
 
 app.get('/api/customers/:slug', async (c) => {
-  const record = await load(c, slugParam(c));
+  const slug = slugParam(c);
+  const record = await load(c, slug);
   const asOf = today();
+  // The blob SHA this view was built from. The UI sends it back with an edit so
+  // a concurrent change is rejected rather than silently overwritten.
+  const file = await getFile(c.env, `customers/${slug}/customer.yaml`);
   return c.json({
     ...record,
+    base_sha: file?.sha ?? null,
     health: evaluateHealth(record, asOf),
     gate: gateProgress(record, asOf),
     transitions: LIFECYCLE_STAGES.filter((s) => s !== record.customer.lifecycle_stage).map((to) => ({
@@ -650,5 +664,93 @@ function stripUndefined<T extends Record<string, unknown>>(obj: T): Partial<T> {
  * built app on its own.
  */
 app.all('*', async (c) => c.env.ASSETS.fetch(c.req.raw));
+
+
+
+// ------------------------------------------------------------------ admin
+
+/**
+ * People and roles. Writing through the normal commit path keeps a permission
+ * change a reviewable commit in git rather than a console click nobody can audit.
+ */
+const RolesBody = z.object({
+  default_role: z.enum(ROLES),
+  users: z
+    .array(z.object({ email: z.string().email(), role: z.enum(ROLES) }))
+    .max(500),
+});
+
+app.get('/api/admin/roles', async (c) => {
+  const roles = await loadRoles(c.env);
+  const actor = c.get('actor');
+  const bootstrap = needsBootstrap(roles);
+  return c.json({
+    ...roles,
+    bootstrap,
+    can_edit: denyReason(actor, 'manage_roles', null, { bootstrap }) === null,
+  });
+});
+
+app.put('/api/admin/roles', async (c) => {
+  const actor = c.get('actor');
+  const current = await loadRoles(c.env);
+  const bootstrap = needsBootstrap(current);
+
+  const reason = denyReason(actor, 'manage_roles', null, { bootstrap });
+  if (reason) throw new Forbidden(reason);
+
+  const body = validateWith<z.infer<typeof RolesBody>>(RolesBody, await c.req.json(), 'Roles');
+
+  const seen = new Set<string>();
+  for (const u of body.users) {
+    const key = u.email.toLowerCase();
+    if (seen.has(key)) throw new BadRequest(`${u.email} is listed more than once.`);
+    seen.add(key);
+  }
+
+  // Removing the last admin would lock everyone out of this page, and the only
+  // way back would be editing the file in GitHub by hand.
+  if (!bootstrap && !body.users.some((u) => u.role === 'admin')) {
+    throw new BadRequest(
+      'At least one admin is required. Promote someone else before removing the last admin.',
+    );
+  }
+
+  const result = await writeText(c.env, {
+    path: 'config/roles.yaml',
+    text: renderRoles(body),
+    message: `chore(roles): update people and roles`,
+    actor: actor.email,
+  });
+
+  invalidateRoles();
+  return c.json(result);
+});
+
+/** Written by hand rather than dumped, so the file keeps its explanatory header. */
+function renderRoles(roles: { default_role: Role; users: Array<{ email: string; role: Role }> }): string {
+  const sorted = [...roles.users].sort(
+    (a, b) => a.role.localeCompare(b.role) || a.email.localeCompare(b.email),
+  );
+  return (
+    `# Role assignments. Kept in the repo like everything else, so a permission\n` +
+    `# change is a reviewable commit rather than a console click nobody can audit.\n` +
+    `#\n` +
+    `# Managed from the Admin page in the app. Hand edits are fine too.\n` +
+    `#\n` +
+    `# Roles (docs/ARCHITECTURE.md §8):\n` +
+    `#   csm         read all; write only accounts they own\n` +
+    `#   presales    read all; write presales-stage accounts and commitments they originate\n` +
+    `#   leadership  read all; waive gate items; reassign ownership\n` +
+    `#   admin       everything, plus managing this file\n` +
+    `#\n` +
+    `# Anyone Access lets in who is not listed here gets default_role.\n` +
+    `default_role: ${roles.default_role}\n\n` +
+    `users:\n` +
+    (sorted.length === 0
+      ? '  []\n'
+      : sorted.map((u) => `  - email: ${u.email}\n    role: ${u.role}\n`).join(''))
+  );
+}
 
 export default app;

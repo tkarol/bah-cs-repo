@@ -1,0 +1,17 @@
+slug: civic-transit-authority
+name: Civic Transit Authority
+tier: growth
+lifecycle_stage: prospect
+stage_entered: 2026-09-02
+
+contract:
+  value_annual: 450000
+  start: 2027-01-01
+  end: 2027-12-31
+
+owners:
+  accountable: s.dube@bah.com
+  presales_lead: s.dube@bah.com
+  acknowledged_by_accountable: true
+
+attachments: []

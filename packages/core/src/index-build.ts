@@ -6,6 +6,7 @@
  * be deleted and regenerated at any time.
  */
 import { daysSince, daysUntil, toISODate } from './dates.ts';
+import { STAGE_PHASE, type LifecycleStage, type Phase } from './schema.ts';
 import { evaluateHealth, cadenceFor, lastContactDate, type Band, type Severity, type Signal } from './health.ts';
 import { gateProgress, type GateProgress } from './gate.ts';
 import type { CustomerRecord } from './load.ts';
@@ -18,6 +19,8 @@ export interface IndexEntry {
   name: string;
   tier: string;
   lifecycle_stage: string;
+  /** Derived from the stage so the UI never has to re-map it. */
+  phase: Phase;
   stage_entered: string;
   days_in_stage: number;
   contract: { value_annual: number; start: string; end: string; days_to_renewal: number };
@@ -110,6 +113,7 @@ export function buildEntry(record: CustomerRecord, asOf: Date): IndexEntry {
     name: record.customer.name,
     tier: record.customer.tier,
     lifecycle_stage: record.customer.lifecycle_stage,
+    phase: STAGE_PHASE[record.customer.lifecycle_stage as LifecycleStage],
     stage_entered: record.customer.stage_entered,
     days_in_stage: daysSince(record.customer.stage_entered, asOf),
     contract: {

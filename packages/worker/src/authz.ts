@@ -22,21 +22,44 @@ const RolesFileSchema = z.object({
     .default([]),
 });
 
-let cache: { map: Map<string, Role>; fallback: Role; fetchedAt: number } | null = null;
-const TTL_MS = 5 * 60 * 1000;
+export interface RolesFile {
+  default_role: Role;
+  users: Array<{ email: string; role: Role }>;
+}
+
+let cache: { file: RolesFile; fetchedAt: number } | null = null;
+const TTL_MS = 60 * 1000;
+
+/** Drops the cached roles so a change through the admin page takes effect at once. */
+export function invalidateRoles(): void {
+  cache = null;
+}
+
+export async function loadRoles(env: Env): Promise<RolesFile> {
+  if (cache && Date.now() - cache.fetchedAt <= TTL_MS) return cache.file;
+  const file = await getFile(env, 'config/roles.yaml');
+  const parsed = RolesFileSchema.safeParse(file ? parseYaml(file.text) : {});
+  if (!parsed.success) throw new Error(`config/roles.yaml is invalid: ${parsed.error.message}`);
+  cache = { file: parsed.data, fetchedAt: Date.now() };
+  return parsed.data;
+}
+
+/**
+ * True when nobody has been made an admin yet. Until someone is, any signed-in
+ * user may manage roles — otherwise the first person to deploy is locked out of
+ * the admin page by the very file they need to edit to get in.
+ *
+ * Access already restricts sign-in to the organisation's own domain, and this
+ * closes permanently the moment one admin exists.
+ */
+export function needsBootstrap(roles: RolesFile): boolean {
+  return !roles.users.some((u) => u.role === 'admin');
+}
 
 export async function roleFor(env: Env, email: string): Promise<Role> {
-  if (!cache || Date.now() - cache.fetchedAt > TTL_MS) {
-    const file = await getFile(env, 'config/roles.yaml');
-    const parsed = RolesFileSchema.safeParse(file ? parseYaml(file.text) : {});
-    if (!parsed.success) throw new Error(`config/roles.yaml is invalid: ${parsed.error.message}`);
-    cache = {
-      map: new Map(parsed.data.users.map((u) => [u.email.toLowerCase(), u.role])),
-      fallback: parsed.data.default_role,
-      fetchedAt: Date.now(),
-    };
-  }
-  return cache.map.get(email.toLowerCase()) ?? cache.fallback;
+  const roles = await loadRoles(env);
+  const found = roles.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  return found?.role ?? roles.default_role;
 }
 
 export type Action =
@@ -45,7 +68,8 @@ export type Action =
   | 'transition_stage'
   | 'waive_gate_item'
   | 'reassign_ownership'
-  | 'create_customer';
+  | 'create_customer'
+  | 'manage_roles';
 
 export interface Actor {
   email: string;
@@ -68,11 +92,18 @@ export function denyReason(
   actor: Actor,
   action: Action,
   record: CustomerRecord | null,
+  options: { bootstrap?: boolean } = {},
 ): string | null {
   if (actor.role === 'admin') return null;
   if (action === 'read') return null;
 
   switch (action) {
+    case 'manage_roles':
+      // See needsBootstrap: open until the first admin exists, closed after.
+      return options.bootstrap
+        ? null
+        : 'Only an admin can manage people and roles. Ask an admin to grant you access.';
+
     case 'create_customer':
       // Anyone who can sign in can start an account; it is the gate that matters,
       // not the creation.

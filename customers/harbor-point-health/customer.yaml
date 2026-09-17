@@ -1,0 +1,18 @@
+slug: harbor-point-health
+name: Harbor Point Health Network
+tier: strategic
+lifecycle_stage: presales
+stage_entered: 2026-07-28
+
+contract:
+  value_annual: 1900000
+  start: 2026-11-01
+  end: 2027-10-31
+  vehicle: Commercial
+
+owners:
+  accountable: m.okafor@bah.com
+  presales_lead: m.okafor@bah.com
+  acknowledged_by_accountable: true
+
+attachments: []

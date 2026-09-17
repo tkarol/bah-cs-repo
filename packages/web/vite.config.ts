@@ -12,6 +12,8 @@ interface DevServer {
   middlewares: {
     use(fn: (req: { url?: string }, res: DevResponse, next: () => void) => void): void;
   };
+  /** Loads a workspace module through vite so its TypeScript is transformed. */
+  ssrLoadModule(id: string): Promise<any>;
 }
 interface DevResponse {
   statusCode: number;
@@ -29,17 +31,54 @@ function fixtures() {
     name: 'cs-fixtures',
     apply: 'serve' as const,
     configureServer(server: DevServer) {
+      const json = (res: DevResponse, status: number, body: unknown) => {
+        res.statusCode = status;
+        res.setHeader('content-type', 'application/json');
+        res.end(JSON.stringify(body));
+      };
+
       server.middlewares.use(async (req, res, next) => {
-        const match = /^\/fixtures\/(index|exceptions)\.json$/.exec(req.url ?? '');
-        if (!match) return next();
-        try {
-          const text = await readFile(resolve(repoRoot, `${match[1]}.json`), 'utf8');
-          res.setHeader('content-type', 'application/json');
-          res.end(text);
-        } catch {
-          res.statusCode = 404;
-          res.end('{"error":"run `npm run index` first"}');
+        const url = req.url ?? '';
+
+        const file = /^\/fixtures\/(index|exceptions)\.json$/.exec(url);
+        if (file) {
+          try {
+            const text = await readFile(resolve(repoRoot, `${file[1]}.json`), 'utf8');
+            res.setHeader('content-type', 'application/json');
+            res.end(text);
+          } catch {
+            json(res, 404, { error: 'run `npm run index` first' });
+          }
+          return;
         }
+
+        // One account, assembled from the files on disk with the real domain
+        // logic, so the account page can be developed and reviewed without
+        // deploying the Worker or reaching GitHub.
+        const detail = /^\/fixtures\/customer\/([a-z0-9-]+)$/.exec(url);
+        if (detail) {
+          try {
+            const core = await server.ssrLoadModule('@cs/core');
+            const node = await server.ssrLoadModule('@cs/core/node');
+            const source = node.fsSource(repoRoot);
+            const record = await core.loadCustomer(source, detail[1]!);
+            const asOf = core.parseDate(new Date().toISOString().slice(0, 10));
+            json(res, 200, {
+              ...record,
+              base_sha: 'dev-fixture',
+              health: core.evaluateHealth(record, asOf),
+              gate: core.gateProgress(record, asOf),
+              transitions: core.LIFECYCLE_STAGES.filter(
+                (st: string) => st !== record.customer.lifecycle_stage,
+              ).map((to: string) => ({ to, ...core.evaluateGate(record, to, asOf) })),
+            });
+          } catch (err) {
+            json(res, 404, { error: (err as Error).message });
+          }
+          return;
+        }
+
+        next();
       });
     },
   };

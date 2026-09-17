@@ -13,7 +13,7 @@ const SEVERITY_RANK: Record<Severity, number> = { critical: 0, high: 1, medium: 
  * is a ranked list of what is wrong, because the question leadership actually
  * has is "what needs me today", not "show me everything".
  */
-export function Leadership() {
+export function Attention() {
   const [index, setIndex] = useState<CustomerIndex | null>(null);
   const [feed, setFeed] = useState<ExceptionFeed | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -101,7 +101,7 @@ export function Leadership() {
             <div className={`row sev-${e.severity}`} key={e.key}>
               <div className="head">
                 <SeverityChip severity={e.severity} />
-                <Link className="name" to={`/customers/${e.slug}`}>
+                <Link className="name" to={`/a/${e.slug}`}>
                   {e.customer}
                 </Link>
                 <span className="muted">{e.label}</span>

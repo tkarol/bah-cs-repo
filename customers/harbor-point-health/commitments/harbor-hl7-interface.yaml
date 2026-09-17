@@ -1,0 +1,12 @@
+id: harbor-hl7-interface
+title: HL7 v2 interface to their existing EHR, live before go-live
+origin: presales
+origin_ref: customers/harbor-point-health/touchpoints/2026-09-11-technical.md
+made_by: m.okafor@bah.com
+made_to: Rachel Lindqvist, Director of Clinical Systems
+owner: m.okafor@bah.com
+due: 2026-12-19
+severity: contractual
+status: not_started
+evidence: null
+accepted_at_handoff: false

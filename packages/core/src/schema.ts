@@ -43,6 +43,50 @@ export const STAGE_EXPECTED_DAYS: Record<LifecycleStage, number | null> = {
   churned: null,
 };
 
+/**
+ * The three phases an account moves through, and the boundary between them.
+ *
+ * The same record is called an *opportunity* before the handoff and a
+ * *customer* after it — that is how people actually talk about it, and naming
+ * it that way makes the crossing point obvious in the UI.
+ */
+export const PHASES = ['presales', 'handoff', 'postsales', 'closed'] as const;
+export type Phase = (typeof PHASES)[number];
+
+export const STAGE_PHASE: Record<LifecycleStage, Phase> = {
+  prospect: 'presales',
+  presales: 'presales',
+  handoff: 'handoff',
+  onboarding: 'postsales',
+  steady_state: 'postsales',
+  renewal: 'postsales',
+  at_risk: 'postsales',
+  churned: 'closed',
+};
+
+export const PHASE_LABEL: Record<Phase, string> = {
+  presales: 'Pre-sales',
+  handoff: 'Handoff',
+  postsales: 'Post-sales',
+  closed: 'Closed',
+};
+
+/** What to call a record in this phase. */
+export function recordNoun(stage: LifecycleStage): 'opportunity' | 'customer' {
+  return STAGE_PHASE[stage] === 'presales' ? 'opportunity' : 'customer';
+}
+
+export const STAGE_LABEL: Record<LifecycleStage, string> = {
+  prospect: 'Prospect',
+  presales: 'In pursuit',
+  handoff: 'Handoff',
+  onboarding: 'Onboarding',
+  steady_state: 'Steady state',
+  renewal: 'Renewal',
+  at_risk: 'At risk',
+  churned: 'Churned',
+};
+
 const email = z.string().email();
 const isoDate = z
   .string()

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { denyReason, type Actor } from '../src/authz.ts';
+import { denyReason, needsBootstrap, type Actor } from '../src/authz.ts';
 import type { CustomerRecord } from '@cs/core';
 
 const actor = (role: Actor['role'], email = 'me@bah.com'): Actor => ({ email, role });
@@ -96,5 +96,38 @@ describe('creating a customer', () => {
 describe('a missing record', () => {
   it('is refused rather than defaulting open', () => {
     expect(denyReason(actor('csm'), 'write_customer', null)).toBe('Customer not found.');
+  });
+});
+
+describe('managing roles', () => {
+  it('is admin-only once an admin exists', () => {
+    for (const role of ['csm', 'presales', 'leadership'] as const) {
+      expect(denyReason(actor(role), 'manage_roles', null, { bootstrap: false })).not.toBeNull();
+    }
+    expect(denyReason(actor('admin'), 'manage_roles', null, { bootstrap: false })).toBeNull();
+  });
+
+  it('is open to anyone while no admin exists yet', () => {
+    // Otherwise the first person to deploy is locked out of the admin page by
+    // the very file they need to edit to get into it.
+    for (const role of ['csm', 'presales', 'leadership'] as const) {
+      expect(denyReason(actor(role), 'manage_roles', null, { bootstrap: true })).toBeNull();
+    }
+  });
+
+  it('defaults to closed when the caller says nothing about bootstrap', () => {
+    expect(denyReason(actor('csm'), 'manage_roles', null)).not.toBeNull();
+  });
+});
+
+describe('needsBootstrap', () => {
+  it('is true only while no admin is listed', () => {
+    expect(needsBootstrap({ default_role: 'csm', users: [] })).toBe(true);
+    expect(
+      needsBootstrap({ default_role: 'csm', users: [{ email: 'a@bah.com', role: 'leadership' }] }),
+    ).toBe(true);
+    expect(
+      needsBootstrap({ default_role: 'csm', users: [{ email: 'a@bah.com', role: 'admin' }] }),
+    ).toBe(false);
   });
 });

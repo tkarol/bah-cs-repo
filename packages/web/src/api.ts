@@ -52,7 +52,16 @@ async function toError(res: Response): Promise<ApiError> {
 
 export interface Me { email: string; role: string }
 
+export interface RolesFile {
+  default_role: string;
+  users: Array<{ email: string; role: string }>;
+  bootstrap: boolean;
+  can_edit: boolean;
+}
+
 export interface CustomerDetail extends CustomerRecord {
+  /** Blob SHA this view was built from; sent back with an edit. */
+  base_sha: string | null;
   health: Health;
   gate: GateProgress | null;
   transitions: Array<{ to: string; allowed: boolean; blockers: Blocker[] }>;
@@ -64,21 +73,27 @@ export interface CommitEntry {
 
 /** In fixtures mode there is no Worker, so routes that only it can serve fail
  *  immediately rather than making a request that is certain to fail. */
-function requireApi(): never {
-  throw new ApiError(503, 'Running on fixtures — start the Worker for live data.');
+function requireApi<T>(): Promise<T> {
+  // Returns a rejected promise rather than throwing: a synchronous throw here
+  // escapes the caller's .catch() and takes down the whole page load.
+  return Promise.reject(new ApiError(503, 'Running on fixtures — start the Worker for live data.'));
 }
 
 export const api = {
   me: (): Promise<Me> =>
     FIXTURES
-      ? Promise.resolve({ email: 'preview', role: 'csm' })
+      ? // Dev preview runs as leadership so every edit surface is visible while
+        // working on it. In production this comes from the Access identity.
+        Promise.resolve({ email: 'dev@bah.com', role: 'leadership' })
       : get<Me>('/api/me').catch(() => ({ email: 'unknown', role: 'csm' }) as Me),
   index: () => get<CustomerIndex>('/api/index', '/fixtures/index.json'),
   exceptions: () => get<ExceptionFeed>('/api/exceptions', '/fixtures/exceptions.json'),
   customer: (slug: string) =>
-    FIXTURES ? requireApi() : get<CustomerDetail>(`/api/customers/${slug}`),
+    get<CustomerDetail>(`/api/customers/${slug}`, `/fixtures/customer/${slug}`),
   history: (slug: string) =>
-    FIXTURES ? requireApi() : get<{ commits: CommitEntry[] }>(`/api/customers/${slug}/history`),
+    FIXTURES
+      ? requireApi<{ commits: CommitEntry[] }>()
+      : get<{ commits: CommitEntry[] }>(`/api/customers/${slug}/history`),
 
   createCustomer: (body: Record<string, unknown>) =>
     send<{ slug: string }>('POST', '/api/customers', body),
@@ -94,6 +109,25 @@ export const api = {
     }),
   acknowledgeOwnership: (slug: string) =>
     send<unknown>('POST', `/api/customers/${slug}/ownership/acknowledge`, {}),
+  patchCustomer: (slug: string, baseSha: string, patch: Record<string, unknown>) =>
+    send<unknown>('PATCH', `/api/customers/${slug}`, { base_sha: baseSha, patch }),
+  reassign: (slug: string, accountable: string, deliveryLead?: string) =>
+    send<unknown>('POST', `/api/customers/${slug}/ownership`, {
+      accountable,
+      ...(deliveryLead ? { delivery_lead: deliveryLead } : {}),
+    }),
+  addCommitment: (slug: string, body: Record<string, unknown>) =>
+    send<unknown>('POST', `/api/customers/${slug}/commitments`, body),
+  addRisk: (slug: string, body: Record<string, unknown>) =>
+    send<unknown>('POST', `/api/customers/${slug}/risks`, body),
+  addTouchpoint: (slug: string, body: Record<string, unknown>) =>
+    send<unknown>('POST', `/api/customers/${slug}/touchpoints`, body),
+  roles: () =>
+    FIXTURES
+      ? Promise.resolve({ default_role: 'csm', users: [], bootstrap: true, can_edit: true } as RolesFile)
+      : get<RolesFile>('/api/admin/roles'),
+  saveRoles: (body: { default_role: string; users: Array<{ email: string; role: string }> }) =>
+    send<unknown>('PUT', '/api/admin/roles', body),
   updateCommitment: (slug: string, id: string, patch: Record<string, unknown>) =>
     send<unknown>('PATCH', `/api/customers/${slug}/commitments/${id}`, patch),
   isFixtures: FIXTURES,

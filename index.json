@@ -2,13 +2,13 @@
   "schema_version": 1,
   "as_of": "2026-09-17",
   "totals": {
-    "customers": 5,
+    "customers": 7,
     "by_band": {
-      "green": 1,
+      "green": 3,
       "amber": 3,
       "red": 1
     },
-    "arr_total": 8870000,
+    "arr_total": 11220000,
     "arr_not_green": 6470000,
     "exceptions_by_severity": {
       "critical": 2,
@@ -25,6 +25,7 @@
       "name": "Atlas Logistics Group",
       "tier": "strategic",
       "lifecycle_stage": "onboarding",
+      "phase": "postsales",
       "stage_entered": "2026-05-20",
       "days_in_stage": 120,
       "contract": {
@@ -150,6 +151,7 @@
       "name": "Cascade Energy Partners",
       "tier": "growth",
       "lifecycle_stage": "renewal",
+      "phase": "postsales",
       "stage_entered": "2026-08-01",
       "days_in_stage": 47,
       "contract": {
@@ -256,10 +258,225 @@
       "renewal_on_file": false
     },
     {
+      "slug": "civic-transit-authority",
+      "name": "Civic Transit Authority",
+      "tier": "growth",
+      "lifecycle_stage": "prospect",
+      "phase": "presales",
+      "stage_entered": "2026-09-02",
+      "days_in_stage": 15,
+      "contract": {
+        "value_annual": 450000,
+        "start": "2027-01-01",
+        "end": "2027-12-31",
+        "days_to_renewal": 470
+      },
+      "accountable_owner": "s.dube@bah.com",
+      "delivery_lead": null,
+      "presales_lead": "s.dube@bah.com",
+      "health": {
+        "score": 100,
+        "band": "green",
+        "signals": [
+          {
+            "id": "contact_decay",
+            "label": "Contact decay",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "Last contact 15d ago, within 30d cadence.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "past_due_commitments",
+            "label": "Past-due commitments",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "No commitments past due.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "handoff_debt",
+            "label": "Handoff debt",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "No handoff gate open.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "stage_stagnation",
+            "label": "Stage stagnation",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "15d in \"prospect\", within 90d band.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "risk_aging",
+            "label": "Risk aging",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "No open risks.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "ownership_gap",
+            "label": "Ownership gap",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "Owned by s.dube@bah.com, acknowledged.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "renewal_exposure",
+            "label": "Renewal exposure",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "Renewal 470d out; no plan required yet.",
+            "since": null,
+            "refs": []
+          }
+        ]
+      },
+      "counts": {
+        "commitments_total": 0,
+        "commitments_open": 0,
+        "commitments_past_due": 0,
+        "risks_open": 0,
+        "touchpoints": 1,
+        "stakeholders": 1
+      },
+      "last_contact": "2026-09-02",
+      "days_since_contact": 15,
+      "cadence_days": 30,
+      "handoff": null,
+      "renewal_on_file": false
+    },
+    {
+      "slug": "harbor-point-health",
+      "name": "Harbor Point Health Network",
+      "tier": "strategic",
+      "lifecycle_stage": "presales",
+      "phase": "presales",
+      "stage_entered": "2026-07-28",
+      "days_in_stage": 51,
+      "contract": {
+        "value_annual": 1900000,
+        "start": "2026-11-01",
+        "end": "2027-10-31",
+        "days_to_renewal": 409
+      },
+      "accountable_owner": "m.okafor@bah.com",
+      "delivery_lead": null,
+      "presales_lead": "m.okafor@bah.com",
+      "health": {
+        "score": 100,
+        "band": "green",
+        "signals": [
+          {
+            "id": "contact_decay",
+            "label": "Contact decay",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "Last contact 6d ago, within 14d cadence.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "past_due_commitments",
+            "label": "Past-due commitments",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "No commitments past due.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "handoff_debt",
+            "label": "Handoff debt",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "No handoff gate open.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "stage_stagnation",
+            "label": "Stage stagnation",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "51d in \"presales\", within 120d band.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "risk_aging",
+            "label": "Risk aging",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "No open risks.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "ownership_gap",
+            "label": "Ownership gap",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "Owned by m.okafor@bah.com, acknowledged.",
+            "since": null,
+            "refs": []
+          },
+          {
+            "id": "renewal_exposure",
+            "label": "Renewal exposure",
+            "fired": false,
+            "points": 0,
+            "severity": "low",
+            "detail": "Renewal 409d out; no plan required yet.",
+            "since": null,
+            "refs": []
+          }
+        ]
+      },
+      "counts": {
+        "commitments_total": 1,
+        "commitments_open": 1,
+        "commitments_past_due": 0,
+        "risks_open": 0,
+        "touchpoints": 1,
+        "stakeholders": 2
+      },
+      "last_contact": "2026-09-11",
+      "days_since_contact": 6,
+      "cadence_days": 14,
+      "handoff": null,
+      "renewal_on_file": false
+    },
+    {
       "slug": "meridian-health",
       "name": "Meridian Health Systems",
       "tier": "strategic",
       "lifecycle_stage": "steady_state",
+      "phase": "postsales",
       "stage_entered": "2026-02-10",
       "days_in_stage": 219,
       "contract": {
@@ -368,6 +585,7 @@
       "name": "Northwind Federal Services",
       "tier": "growth",
       "lifecycle_stage": "steady_state",
+      "phase": "postsales",
       "stage_entered": "2025-11-03",
       "days_in_stage": 318,
       "contract": {
@@ -478,6 +696,7 @@
       "name": "Vertex Defense Solutions",
       "tier": "strategic",
       "lifecycle_stage": "handoff",
+      "phase": "handoff",
       "stage_entered": "2026-07-02",
       "days_in_stage": 77,
       "contract": {

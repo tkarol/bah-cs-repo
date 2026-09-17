@@ -14,6 +14,23 @@ export function HowItWorks() {
         showing leadership the truth about every account without asking anyone.
       </p>
 
+      <h2>Finding your way around</h2>
+      <table>
+        <thead>
+          <tr><th>Page</th><th>What it is for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Pipeline</strong></td><td>Every account in three lanes — pre-sales, the handoff, post-sales. The place you work.</td></tr>
+          <tr><td><strong>Attention</strong></td><td>A ranked list of what is wrong across the whole portfolio. What leadership opens.</td></tr>
+          <tr><td><strong>People</strong></td><td>Who can do what. Admins only, once one exists.</td></tr>
+        </tbody>
+      </table>
+      <p className="muted" style={{ fontSize: 13.5 }}>
+        The same record is an <strong>opportunity</strong> before the handoff and a{' '}
+        <strong>customer</strong> after it. One record, one history — the label changes because
+        that is how people talk about it, not because anything is copied across.
+      </p>
+
       <h2>The problem it solves</h2>
       <p>
         Things do not fall through the cracks evenly. They fall through at three specific
