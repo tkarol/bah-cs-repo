@@ -33,6 +33,17 @@ interface Jwk {
   e: string;
 }
 
+/**
+ * Accepts the team domain however it gets pasted: with a scheme, with a
+ * trailing slash, or as the bare team name. Getting this subtly wrong produces
+ * a JWKS fetch failure that says nothing useful, so it is normalised once here
+ * rather than left as a trap in the setup instructions.
+ */
+export function normalizeTeamDomain(value: string): string {
+  const trimmed = value.trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '');
+  return trimmed.includes('.') ? trimmed : `${trimmed}.cloudflareaccess.com`;
+}
+
 const keyCache = new Map<string, { keys: Map<string, CryptoKey>; fetchedAt: number }>();
 const JWKS_TTL_MS = 60 * 60 * 1000;
 
@@ -92,7 +103,8 @@ export async function verifyAccess(request: Request, env: Env): Promise<Identity
   if (header.alg !== 'RS256') throw new AuthError('Unexpected Access token algorithm');
   if (!header.kid) throw new AuthError('Access token has no key id');
 
-  const key = (await jwks(env.ACCESS_TEAM_DOMAIN)).get(header.kid);
+  const teamDomain = normalizeTeamDomain(env.ACCESS_TEAM_DOMAIN);
+  const key = (await jwks(teamDomain)).get(header.kid);
   if (!key) throw new AuthError('Access token signed by an unknown key');
 
   const valid = await crypto.subtle.verify(
@@ -112,7 +124,7 @@ export async function verifyAccess(request: Request, env: Env): Promise<Identity
   if (!audiences.includes(env.ACCESS_AUD)) {
     throw new AuthError('Access token was issued for a different application');
   }
-  if (claims.iss !== `https://${env.ACCESS_TEAM_DOMAIN}`) {
+  if (claims.iss !== `https://${teamDomain}`) {
     throw new AuthError('Access token issuer mismatch');
   }
   if (!claims.email) throw new AuthError('Access token carries no email claim');

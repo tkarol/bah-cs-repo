@@ -34,7 +34,7 @@ GITHUB_APP_ID = "4978398"
 GITHUB_INSTALLATION_ID = "162491853"
 # The Cloudflare Access application audience tag and team domain. Not secrets,
 # but they must match the Access app exactly or every request is rejected.
-ACCESS_AUD = ""
+ACCESS_AUD = "487714998247bfebab71df1e264779e60d8f16a6e67693d575e7cbfb501e301e"
 ACCESS_TEAM_DOMAIN = ""
 
 # The only secret. Paste the .pem exactly as GitHub downloads it -- the Worker

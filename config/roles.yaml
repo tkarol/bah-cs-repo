@@ -6,6 +6,9 @@
 #   presales    read all; write presales-stage accounts and commitments they originate
 #   leadership  read all; waive gate items; reassign ownership
 #   admin       schema and template changes
+# Anyone Cloudflare Access lets in (any @bah.com address) who is not listed here
+# gets default_role. Access decides who can sign in; this file decides what they
+# can do once inside.
 default_role: csm
 
 users:
