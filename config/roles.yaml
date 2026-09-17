@@ -1,6 +1,7 @@
-# Who can do what, once Cloudflare Access has let them in.
+# Role assignments. Kept in the repo like everything else, so a permission
+# change is a reviewable commit rather than a console click nobody can audit.
 #
-# Managed from the People page in the app. Hand edits are fine too.
+# Managed from the Admin page in the app. Hand edits are fine too.
 #
 # Roles (docs/ARCHITECTURE.md §8):
 #   csm         read all; write only accounts they own
@@ -9,10 +10,8 @@
 #   admin       everything, plus managing this file
 #
 # Anyone Access lets in who is not listed here gets default_role.
-#
-# Deliberately empty: add yourself as an admin from the People page on first
-# sign-in. Until one admin exists, anyone who can sign in may edit that page.
 default_role: csm
 
 users:
-  []
+  - email: karol_tyler@bah.com
+    role: admin
