@@ -8,6 +8,24 @@ need to buy a domain: Cloudflare Access can be switched on for the Worker's own
 
 ---
 
+## This deployment
+
+Already configured in `wrangler.toml`, committed:
+
+| Setting | Value |
+|---|---|
+| Worker name | `bah-cs-repo` (must match the dashboard, or a second Worker is created) |
+| Production branch | `main` |
+| GitHub App | id `4978398`, installation `162491853` |
+| Access team | `round-frost-38a4.cloudflareaccess.com` |
+| Sign-in | any `@bah.com` address |
+
+The only thing set outside the repo is the `GITHUB_PRIVATE_KEY` secret.
+Cloudflare's Git integration builds on push to `main` with `npm run build` then
+`npx wrangler deploy`, from the repository root.
+
+---
+
 ## What gets deployed
 
 A single Worker. It serves the built React app from static assets and handles
@@ -133,7 +151,7 @@ call. That is deliberate: it **fails closed** rather than exposing customer data
 to anyone who finds the URL.
 
 **a. Enable Access on the Worker.** Cloudflare dashboard → **Workers & Pages** →
-your Worker (`cs-app`) → **Settings** → **Domains & Routes** → next to the
+your Worker (`bah-cs-repo`) → **Settings** → **Domains & Routes** → next to the
 `workers.dev` entry, click **Enable Cloudflare Access**.
 
 That protects the URL with a login screen immediately. Click **Manage Cloudflare
@@ -243,7 +261,7 @@ would redeploy the Worker for a data change that does not affect the code.
 
 ```bash
 # 1. Signed out, in a private window — should redirect to your IdP, not render.
-open https://cs-app.<your-subdomain>.workers.dev
+open https://bah-cs-repo.<your-subdomain>.workers.dev
 
 # 2. Signed in: who am I, and what role did roles.yaml give me?
 #    (Run in the browser console on the deployed app, so the Access cookie is sent.)
