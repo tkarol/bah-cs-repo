@@ -657,13 +657,6 @@ function stripUndefined<T extends Record<string, unknown>>(obj: T): Partial<T> {
 
 
 
-/**
- * Anything that is not /api/* is the SPA. In the deployed Worker this rarely
- * runs — `run_worker_first` only routes /api/* here — but it keeps the Worker
- * correct if that config is ever widened, and makes `wrangler dev` serve the
- * built app on its own.
- */
-app.all('*', async (c) => c.env.ASSETS.fetch(c.req.raw));
 
 
 
@@ -752,5 +745,19 @@ function renderRoles(roles: { default_role: Role; users: Array<{ email: string; 
       : sorted.map((u) => `  - email: ${u.email}\n    role: ${u.role}\n`).join(''))
   );
 }
+
+/**
+ * Fallbacks. These must be the LAST routes registered: Hono matches in
+ * registration order, so a catch-all declared above a real route silently
+ * swallows it.
+ *
+ * An unknown /api path answers with JSON, never the SPA shell. Serving HTML
+ * to a fetch() that expects JSON produces "Unexpected token '<'", which says
+ * nothing about what actually went wrong.
+ */
+app.all('/api/*', (c) => c.json({ error: `No such endpoint: ${new URL(c.req.url).pathname}` }, 404));
+
+/** Everything else is the single-page app. */
+app.all('*', async (c) => c.env.ASSETS.fetch(c.req.raw));
 
 export default app;

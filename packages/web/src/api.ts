@@ -19,6 +19,22 @@ async function get<T>(path: string, fixture?: string): Promise<T> {
   const url = FIXTURES && fixture ? fixture : path;
   const res = await fetch(url, { headers: { accept: 'application/json' } });
   if (!res.ok) throw await toError(res);
+  return readJson<T>(res, url);
+}
+
+/**
+ * A 200 that is not JSON means the request never reached the API and was
+ * answered by the SPA shell instead. Parsing it raises "Unexpected token '<'",
+ * which says nothing about the cause, so name it here.
+ */
+async function readJson<T>(res: Response, url: string): Promise<T> {
+  const type = res.headers.get('content-type') ?? '';
+  if (!type.includes('json')) {
+    throw new ApiError(
+      502,
+      `${url} did not return JSON. The request was answered by the app shell rather than the API — the endpoint is probably missing from the deployed Worker.`,
+    );
+  }
   return (await res.json()) as T;
 }
 
@@ -32,7 +48,7 @@ async function send<T>(method: string, path: string, body: unknown): Promise<T> 
     body: JSON.stringify(body),
   });
   if (!res.ok) throw await toError(res);
-  return (await res.json()) as T;
+  return readJson<T>(res, path);
 }
 
 async function toError(res: Response): Promise<ApiError> {
