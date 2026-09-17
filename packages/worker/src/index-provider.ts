@@ -45,7 +45,6 @@ export function fileIndexProvider(env: Env): IndexProvider {
 
   const emptyIndex: CustomerIndex = {
     schema_version: 1,
-    generated_at: new Date(0).toISOString(),
     as_of: '1970-01-01',
     totals: {
       customers: 0,
@@ -74,7 +73,6 @@ export function fileIndexProvider(env: Env): IndexProvider {
       if (fresh(feedSlot)) return feedSlot!.value;
       const value = await readJson<ExceptionFeed>('exceptions.json', {
         schema_version: 1,
-        generated_at: new Date(0).toISOString(),
         as_of: '1970-01-01',
         count: 0,
         exceptions: [],

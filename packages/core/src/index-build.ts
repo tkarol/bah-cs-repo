@@ -53,7 +53,13 @@ export interface PortfolioTotals {
 
 export interface CustomerIndex {
   schema_version: number;
-  generated_at: string;
+  /**
+   * The evaluation date. Deliberately the only time field: a wall-clock
+   * `generated_at` would change on every rebuild, so the committed index would
+   * differ from a fresh one even when the data is identical — making the CI
+   * staleness check fail on every PR and the nightly sweep commit a no-op every
+   * night. Git commit timestamps carry build time; this carries meaning.
+   */
   as_of: string;
   totals: PortfolioTotals;
   customers: IndexEntry[];
@@ -80,7 +86,6 @@ export interface ExceptionRecord {
 
 export interface ExceptionFeed {
   schema_version: number;
-  generated_at: string;
   as_of: string;
   count: number;
   exceptions: ExceptionRecord[];
@@ -161,7 +166,6 @@ export function buildIndex(records: CustomerRecord[], asOf: Date): CustomerIndex
 
   return {
     schema_version: INDEX_SCHEMA_VERSION,
-    generated_at: new Date().toISOString(),
     as_of: toISODate(asOf),
     totals,
     customers,
@@ -211,7 +215,6 @@ export function buildExceptions(index: CustomerIndex, asOf: Date): ExceptionFeed
 
   return {
     schema_version: INDEX_SCHEMA_VERSION,
-    generated_at: index.generated_at,
     as_of: toISODate(asOf),
     count: exceptions.length,
     exceptions,

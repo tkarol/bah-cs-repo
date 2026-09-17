@@ -2,8 +2,9 @@
 
 **Status:** runbook · **Target:** one Worker serving both the API and the app
 
-Everything here fits inside free tiers at this portfolio size. The one thing you
-must have is a **domain on Cloudflare** — see the warning in step 4.
+Everything here fits inside free tiers at this portfolio size, and you do **not**
+need to buy a domain: Cloudflare Access can be switched on for the Worker's own
+`workers.dev` URL in one click. A custom domain is an optional upgrade (step 5).
 
 ---
 
@@ -33,7 +34,7 @@ repository is the backend.
 | | |
 |---|---|
 | Cloudflare account | free plan is enough |
-| A domain on Cloudflare | required for Access — step 4 explains why |
+| A domain on Cloudflare | **optional** — only for a nicer URL (step 5) |
 | GitHub repository | this one, with Actions enabled |
 | Node 22 | |
 | Wrangler **4+** | `npm install` provides it. Wrangler 3 rejects this config: the array form of `run_worker_first` that routes `/api/*` to the script landed in v4. |
@@ -124,38 +125,28 @@ mangles the newlines.
 
 ---
 
-## 4. Put Cloudflare Access in front
+## 4. Turn on Cloudflare Access
 
-> **You need a domain on Cloudflare for this.** Access protects hostnames in a
-> zone you control. A bare `*.workers.dev` subdomain is Cloudflare's hostname,
-> not yours, so you cannot put an Access policy on it. Deploying without Access
-> means the app is on the public internet with no authentication — the Worker
-> refuses to serve `/api/*` in that state, by design.
+Until this is done the Worker serves the static app but refuses every `/api/*`
+call. That is deliberate: it **fails closed** rather than exposing customer data
+to anyone who finds the URL.
 
-**a. Attach a custom domain.** In `wrangler.toml`:
+**a. Enable Access on the Worker.** Cloudflare dashboard → **Workers & Pages** →
+your Worker (`cs-app`) → **Settings** → **Domains & Routes** → next to the
+`workers.dev` entry, click **Enable Cloudflare Access**.
 
-```toml
-routes = [
-  { pattern = "cs.yourcompany.com", custom_domain = true }
-]
-```
+That protects the URL with a login screen immediately. Click **Manage Cloudflare
+Access** to point it at your real identity provider (Entra ID, Okta, Google
+Workspace) and set the policy — normally *Emails ending in* `@yourcompany.com`.
 
-Redeploy (`npm run deploy`).
+**b. Copy two values.** From the Access application's settings:
 
-**b. Create the Access application.** Cloudflare dashboard → **Zero Trust** →
-**Access → Applications → Add an application → Self-hosted**:
+| Value | Where |
+|---|---|
+| **Application Audience (AUD) tag** | the Access application → Overview / Additional settings |
+| **Team domain** | Zero Trust → Settings → Custom Pages, shown as `yourteam.cloudflareaccess.com` |
 
-- Application domain: `cs.yourcompany.com`
-- Session duration: 24 hours is reasonable
-- Add an identity provider (Entra ID / Okta / Google Workspace — whatever your
-  organisation already uses)
-- Policy: Allow → *Emails ending in* `@yourcompany.com`, or a specific group
-
-**c. Copy the Application Audience (AUD) tag** from the application's overview,
-and your team domain (`yourteam.cloudflareaccess.com`) from Zero Trust →
-Settings → Custom Pages.
-
-**d. Put both in `wrangler.toml` and redeploy:**
+**c. Put them in `packages/worker/wrangler.toml` and redeploy:**
 
 ```toml
 [vars]
@@ -167,16 +158,35 @@ ACCESS_TEAM_DOMAIN = "yourteam.cloudflareaccess.com"
 npm run deploy
 ```
 
-Visit `cs.yourcompany.com`. You should be bounced to your identity provider,
-and land back on the portfolio page.
+The login screen alone is not the security boundary — a request could reach the
+Worker another way. The Worker verifies the signed `Cf-Access-Jwt-Assertion`
+token on every request against your team's public keys, and checks the audience,
+issuer and expiry. That is what these two values are for.
 
-> Access is free up to **50 users**. That is counted in staff accounts, not
-> customers — it is the first free tier this system would realistically
-> outgrow, so track it deliberately.
+> Access is free up to **50 users**, counted in staff accounts rather than
+> customers. It is the first free tier this system would realistically outgrow,
+> so track it deliberately.
 
 ---
 
-## 5. Add people
+## 5. Optional: a custom domain
+
+`workers.dev` is fine to start. For a real URL, add a domain you have on
+Cloudflare to `wrangler.toml`:
+
+```toml
+routes = [
+  { pattern = "cs.yourcompany.com", custom_domain = true }
+]
+```
+
+Redeploy, then confirm the Access policy covers the new hostname. Protecting the
+Worker itself (step 4) covers every URL that reaches it; a policy attached only
+to a specific hostname does not, so check before you point people at it.
+
+---
+
+## 6. Add people
 
 Roles live in `config/roles.yaml`, so granting someone leadership rights is a
 reviewable commit rather than a console click nobody can audit:
@@ -193,7 +203,7 @@ Anyone Access lets in who is not listed gets `default_role`. Access controls
 
 ---
 
-## 6. Turn on the automation
+## 7. Turn on the automation
 
 The three workflows need nothing but Actions being enabled, and they already
 request `contents: write`:
@@ -216,7 +226,7 @@ have, and a webhook is the free path that works today.
 
 ---
 
-## 7. Deploy from CI
+## 8. Deploy from CI
 
 Create a Cloudflare API token (**My Profile → API Tokens → Create → Edit
 Cloudflare Workers**), add it as the repository secret `CLOUDFLARE_API_TOKEN`,
@@ -232,7 +242,7 @@ would redeploy the Worker for a data change that does not affect the code.
 
 ```bash
 # 1. Signed out, in a private window — should redirect to your IdP, not render.
-open https://cs.yourcompany.com
+open https://cs-app.<your-subdomain>.workers.dev
 
 # 2. Signed in: who am I, and what role did roles.yaml give me?
 #    (Run in the browser console on the deployed app, so the Access cookie is sent.)
@@ -276,5 +286,5 @@ repository, and that `index.json` is rebuilt by the Action within a minute or so
 | GitHub Actions | ~2,000 min/month private | These jobs run in seconds |
 | GitHub repository | free | Text files |
 
-Expected spend: **$0**, plus whatever the domain costs. Verify current free-tier
-terms before committing — they change, and nothing here is hard to move if they do.
+Expected spend: **$0** — a domain is optional. Verify current free-tier terms
+before committing; they change, and nothing here is hard to move if they do.

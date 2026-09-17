@@ -86,12 +86,34 @@ export function parseTouchpoint(raw: string, path: string): Touchpoint {
 /** Repo-relative directory holding all customer data. */
 export const CUSTOMERS_DIR = 'customers';
 
+/** The only shape a customer directory name may take. */
+export const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/**
+ * Guards every path built from a slug. A slug reaches this from a URL segment,
+ * so without this a value like `../../.github/workflows` would let an
+ * authenticated user read or write files outside `customers/` — including
+ * workflow files, which run with repository write access.
+ *
+ * Callers validate at their own boundary too; this is the backstop at the layer
+ * that actually concatenates the path, so a future caller cannot reintroduce
+ * the hole by forgetting.
+ */
+export function assertSafeSlug(slug: string): void {
+  if (!SLUG_PATTERN.test(slug)) {
+    throw new ValidationError(`${CUSTOMERS_DIR}/${slug}`, [
+      'slug must be lowercase kebab-case; refusing to build a path from it',
+    ]);
+  }
+}
+
 export async function listCustomerSlugs(source: FileSource): Promise<string[]> {
   const dirs = await source.listDirs(CUSTOMERS_DIR);
   return dirs.sort();
 }
 
 export async function loadCustomer(source: FileSource, slug: string): Promise<CustomerRecord> {
+  assertSafeSlug(slug);
   const base = `${CUSTOMERS_DIR}/${slug}`;
 
   const customerRaw = await source.read(`${base}/customer.yaml`);

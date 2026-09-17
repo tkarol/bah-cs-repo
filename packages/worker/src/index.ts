@@ -16,6 +16,7 @@ import {
   gateProgress,
   loadCustomer,
   parseDate,
+  SLUG_PATTERN,
   ValidationError,
   LIFECYCLE_STAGES,
   type Commitment,
@@ -76,6 +77,19 @@ app.onError((err, c) => {
   return c.json({ error: 'Internal error.' }, 500);
 });
 
+/**
+ * Reads the :slug URL segment and refuses anything that is not a plain
+ * directory name. Every repository path in this file is built by interpolating
+ * this value, so it is validated once here rather than at fourteen call sites.
+ */
+function slugParam(c: { req: { param(name: string): string | undefined } }): string {
+  const slug = c.req.param('slug') ?? '';
+  if (!SLUG_PATTERN.test(slug)) {
+    throw new BadRequest(`"${slug}" is not a valid customer identifier.`);
+  }
+  return slug;
+}
+
 /** Loads the record straight from the files — never the index — so single
  *  customer views and every write decision act on current truth. */
 async function load(c: { env: Env }, slug: string) {
@@ -114,7 +128,7 @@ app.get('/api/exceptions', async (c) => {
 });
 
 app.get('/api/customers/:slug', async (c) => {
-  const record = await load(c, c.req.param('slug'));
+  const record = await load(c, slugParam(c));
   const asOf = today();
   return c.json({
     ...record,
@@ -128,10 +142,15 @@ app.get('/api/customers/:slug', async (c) => {
 });
 
 app.get('/api/customers/:slug/history', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const path = c.req.query('path') ?? `customers/${slug}`;
-  if (!path.startsWith(`customers/${slug}`)) {
+  // `startsWith` alone is not containment: "customers/acme/../../.github/x"
+  // passes it. Rejecting any traversal segment is what makes it one.
+  if (!path.startsWith(`customers/${slug}/`) && path !== `customers/${slug}`) {
     throw new BadRequest('History path must be inside the customer directory.');
+  }
+  if (path.split('/').includes('..')) {
+    throw new BadRequest('History path may not contain path traversal.');
   }
   return c.json({ commits: await listCommits(c.env, path) });
 });
@@ -202,7 +221,7 @@ const PatchCustomerBody = z.object({
 });
 
 app.patch('/api/customers/:slug', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
   const body = validateWith<z.infer<typeof PatchCustomerBody>>(
@@ -234,7 +253,7 @@ app.patch('/api/customers/:slug', async (c) => {
 });
 
 app.post('/api/customers/:slug/transition', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
   requireAllowed(actor, 'transition_stage', record);
@@ -278,7 +297,7 @@ const ReassignBody = z.object({
 });
 
 app.post('/api/customers/:slug/ownership', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   await load(c, slug);
   requireAllowed(actor, 'reassign_ownership', null);
@@ -306,7 +325,7 @@ app.post('/api/customers/:slug/ownership', async (c) => {
 });
 
 app.post('/api/customers/:slug/ownership/acknowledge', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
 
@@ -334,7 +353,7 @@ const CompleteItemBody = z.object({
 });
 
 app.post('/api/customers/:slug/handoff/:itemId/complete', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const itemId = c.req.param('itemId');
   const actor = c.get('actor');
   const record = await load(c, slug);
@@ -376,7 +395,7 @@ const WaiveItemBody = z.object({
 });
 
 app.post('/api/customers/:slug/handoff/:itemId/waive', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const itemId = c.req.param('itemId');
   const actor = c.get('actor');
   const record = await load(c, slug);
@@ -411,7 +430,7 @@ app.post('/api/customers/:slug/handoff/:itemId/waive', async (c) => {
 });
 
 app.post('/api/customers/:slug/handoff', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
   requireAllowed(actor, 'write_customer', record);
@@ -451,7 +470,7 @@ const NewCommitmentBody = z.object({
 });
 
 app.post('/api/customers/:slug/commitments', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
   requireAllowed(actor, 'write_customer', record);
@@ -498,7 +517,7 @@ const UpdateCommitmentBody = z.object({
 });
 
 app.patch('/api/customers/:slug/commitments/:id', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const id = c.req.param('id');
   const actor = c.get('actor');
   const record = await load(c, slug);
@@ -533,7 +552,7 @@ const TouchpointBody = z.object({
 });
 
 app.post('/api/customers/:slug/touchpoints', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
   requireAllowed(actor, 'write_customer', record);
@@ -573,7 +592,7 @@ const NewRiskBody = z.object({
 });
 
 app.post('/api/customers/:slug/risks', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
   requireAllowed(actor, 'write_customer', record);
@@ -601,7 +620,7 @@ const RenewalBody = z.object({
 });
 
 app.put('/api/customers/:slug/renewal', async (c) => {
-  const slug = c.req.param('slug');
+  const slug = slugParam(c);
   const actor = c.get('actor');
   const record = await load(c, slug);
   requireAllowed(actor, 'write_customer', record);
