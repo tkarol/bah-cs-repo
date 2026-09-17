@@ -1,7 +1,19 @@
-name = "cs-api"
+# One Worker serves both the API and the built SPA.
+#
+# `run_worker_first` sends /api/* to the script; everything else is served
+# straight from the static assets, falling back to index.html for client-side
+# routes. That removes the whole class of Pages-plus-Worker routing problems:
+# one origin, one deploy, no CORS, and Access protects both halves at once.
+name = "cs-app"
 main = "src/index.ts"
-compatibility_date = "2024-12-18"
+compatibility_date = "2026-09-01"
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "../web/dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*"]
 
 # No D1, KV, R2 or Queue bindings: the repository is the backend, and the index
 # is a file. See docs/ARCHITECTURE.md §3.
@@ -9,12 +21,12 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 GITHUB_REPO = "tkarol/bah-cs-repo"
 GITHUB_BRANCH = "main"
-# The Cloudflare Access application audience tag. Not a secret, but it must
-# match the Access app exactly or every request will be rejected.
+# The Cloudflare Access application audience tag and team domain. Not secrets,
+# but they must match the Access app exactly or every request is rejected.
 ACCESS_AUD = ""
 ACCESS_TEAM_DOMAIN = ""
 
-# Secrets, set with `wrangler secret put`:
+# Secrets, set with `wrangler secret put <NAME>`:
 #   GITHUB_APP_ID
 #   GITHUB_INSTALLATION_ID
 #   GITHUB_PRIVATE_KEY   (PKCS#8 PEM)

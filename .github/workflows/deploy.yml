@@ -1,0 +1,45 @@
+# Deploys the Worker (API + built app) to Cloudflare.
+#
+# The paths-ignore list matters: index.yml and sweep.yml commit index.json,
+# exceptions.json and history/ back to main. Without it every nightly sweep
+# would trigger a full redeploy for a data change that cannot affect the code.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'customers/**'
+      - 'index.json'
+      - 'exceptions.json'
+      - 'history/**'
+      - 'docs/**'
+      - '**/*.md'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+
+      # Never ship a Worker that fails its own checks.
+      - run: npm run typecheck
+      - run: npm test
+
+      - name: Build the app
+        run: npm run build
+
+      - name: Deploy the Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx wrangler deploy -c packages/worker/wrangler.toml

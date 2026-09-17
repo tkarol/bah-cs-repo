@@ -6,6 +6,7 @@ import { Leadership } from './pages/Leadership.tsx';
 import { Customers } from './pages/Customers.tsx';
 import { CustomerDetail } from './pages/CustomerDetail.tsx';
 import { NewCustomer } from './pages/NewCustomer.tsx';
+import { HowItWorks } from './pages/HowItWorks.tsx';
 import './styles.css';
 
 function App() {
@@ -27,6 +28,9 @@ function App() {
             <NavLink to="/customers" className={({ isActive }) => (isActive ? 'active' : '')}>
               Customers
             </NavLink>
+            <NavLink to="/how-it-works" className={({ isActive }) => (isActive ? 'active' : '')}>
+              How it works
+            </NavLink>
           </nav>
           <span className="who">{who}</span>
         </div>
@@ -37,6 +41,7 @@ function App() {
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/new" element={<NewCustomer />} />
           <Route path="/customers/:slug" element={<CustomerDetail />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

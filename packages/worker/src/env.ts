@@ -1,4 +1,6 @@
 export interface Env {
+  /** The built SPA. Bound by [assets] in wrangler.toml. */
+  ASSETS: { fetch(request: Request): Promise<Response> };
   GITHUB_REPO: string;
   GITHUB_BRANCH: string;
   ACCESS_AUD: string;

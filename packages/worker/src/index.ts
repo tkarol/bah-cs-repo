@@ -624,4 +624,12 @@ function stripUndefined<T extends Record<string, unknown>>(obj: T): Partial<T> {
 
 
 
+/**
+ * Anything that is not /api/* is the SPA. In the deployed Worker this rarely
+ * runs — `run_worker_first` only routes /api/* here — but it keeps the Worker
+ * correct if that config is ever widened, and makes `wrangler dev` serve the
+ * built app on its own.
+ */
+app.all('*', async (c) => c.env.ASSETS.fetch(c.req.raw));
+
 export default app;
