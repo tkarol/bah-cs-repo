@@ -20,7 +20,8 @@
     "dev:web": "npm run dev -w @cs/web",
     "dev:worker": "npm run dev -w @cs/worker",
     "digest": "node --experimental-strip-types packages/core/src/cli/digest.ts",
-    "deploy": "npm run build && npm run deploy -w @cs/worker"
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:check": "npm run build && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "@types/node": "^22.20.3",

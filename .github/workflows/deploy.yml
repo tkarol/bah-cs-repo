@@ -1,20 +1,16 @@
-# Deploys the Worker (API + built app) to Cloudflare.
+# Manual deploy — a fallback, not the normal path.
 #
-# The paths-ignore list matters: index.yml and sweep.yml commit index.json,
-# exceptions.json and history/ back to main. Without it every nightly sweep
-# would trigger a full redeploy for a data change that cannot affect the code.
-name: Deploy
+# Cloudflare's Git integration (Workers Builds) is connected to this repository
+# and deploys on push to the production branch. If this workflow also deployed
+# on push, two deployers would race the same Worker for every commit, and this
+# one would need a CLOUDFLARE_API_TOKEN that the Git integration makes
+# unnecessary.
+#
+# So it is dispatch-only: use it if the Git integration is broken or
+# disconnected. It needs the CLOUDFLARE_API_TOKEN secret only when run.
+name: Deploy (manual)
 
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - 'customers/**'
-      - 'index.json'
-      - 'exceptions.json'
-      - 'history/**'
-      - 'docs/**'
-      - '**/*.md'
   workflow_dispatch:
 
 concurrency:
@@ -42,4 +38,4 @@ jobs:
       - name: Deploy the Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: npx wrangler deploy -c packages/worker/wrangler.toml
+        run: npx wrangler deploy
