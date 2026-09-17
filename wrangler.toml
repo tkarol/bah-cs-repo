@@ -8,7 +8,9 @@
 # straight from the static assets, falling back to index.html for client-side
 # routes. That removes the whole class of Pages-plus-Worker routing problems:
 # one origin, one deploy, no CORS, and Access protects both halves at once.
-name = "cs-app"
+# Must match the Worker created in the Cloudflare dashboard. The name here
+# wins on deploy, so a mismatch silently creates a second, empty Worker.
+name = "bah-cs-repo"
 main = "packages/worker/src/index.ts"
 compatibility_date = "2026-09-01"
 compatibility_flags = ["nodejs_compat"]
