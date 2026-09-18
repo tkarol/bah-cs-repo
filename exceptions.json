@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-17",
+  "as_of": "2026-09-18",
   "count": 5,
   "exceptions": [
     {
@@ -12,11 +12,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "stage_stagnation",
       "label": "Stage stagnation",
-      "detail": "77d in \"handoff\", 56d beyond the 21d band.",
+      "detail": "78d in \"handoff\", 57d beyond the 21d band.",
       "severity": "high",
       "points": 16,
       "since": "2026-07-02",
-      "age_days": 77,
+      "age_days": 78,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
@@ -31,11 +31,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "ownership_gap",
       "label": "Ownership gap",
-      "detail": "Ownership transferred to l.novak@bah.com 20d ago, not yet acknowledged.",
+      "detail": "Ownership transferred to l.novak@bah.com 21d ago, not yet acknowledged.",
       "severity": "high",
       "points": 15,
       "since": "2026-08-28",
-      "age_days": 20,
+      "age_days": 21,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
@@ -54,7 +54,7 @@
       "severity": "medium",
       "points": 12,
       "since": "2026-07-23",
-      "age_days": 56,
+      "age_days": 57,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/handoff.yaml"
@@ -69,7 +69,7 @@
       "accountable_owner": "r.chen@bah.com",
       "signal": "renewal_exposure",
       "label": "Renewal exposure",
-      "detail": "Renewal in 136d with no renewal.yaml on file.",
+      "detail": "Renewal in 135d with no renewal.yaml on file.",
       "severity": "medium",
       "points": 8,
       "since": "2027-01-31",
@@ -88,11 +88,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "risk_aging",
       "label": "Risk aging",
-      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 69d.",
+      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 70d.",
       "severity": "medium",
       "points": 7,
       "since": "2026-07-10",
-      "age_days": 69,
+      "age_days": 70,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/risks/vertex-clearance-timeline.yaml"
