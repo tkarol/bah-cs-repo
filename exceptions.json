@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-22",
-  "count": 5,
+  "as_of": "2026-09-23",
+  "count": 6,
   "exceptions": [
     {
       "key": "vertex-defense:stage_stagnation",
@@ -12,11 +12,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "stage_stagnation",
       "label": "Stage stagnation",
-      "detail": "82d in \"handoff\", 61d beyond the 21d band.",
+      "detail": "83d in \"handoff\", 62d beyond the 21d band.",
       "severity": "high",
       "points": 16,
       "since": "2026-07-02",
-      "age_days": 82,
+      "age_days": 83,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
@@ -31,11 +31,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "ownership_gap",
       "label": "Ownership gap",
-      "detail": "Ownership transferred to l.novak@bah.com 25d ago, not yet acknowledged.",
+      "detail": "Ownership transferred to l.novak@bah.com 26d ago, not yet acknowledged.",
       "severity": "high",
       "points": 15,
       "since": "2026-08-28",
-      "age_days": 25,
+      "age_days": 26,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
@@ -54,7 +54,7 @@
       "severity": "medium",
       "points": 12,
       "since": "2026-07-23",
-      "age_days": 61,
+      "age_days": 62,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/handoff.yaml"
@@ -69,7 +69,7 @@
       "accountable_owner": "r.chen@bah.com",
       "signal": "renewal_exposure",
       "label": "Renewal exposure",
-      "detail": "Renewal in 131d with no renewal.yaml on file.",
+      "detail": "Renewal in 130d with no renewal.yaml on file.",
       "severity": "medium",
       "points": 8,
       "since": "2027-01-31",
@@ -88,14 +88,33 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "risk_aging",
       "label": "Risk aging",
-      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 74d.",
+      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 75d.",
       "severity": "medium",
       "points": 7,
       "since": "2026-07-10",
-      "age_days": 74,
+      "age_days": 75,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/risks/vertex-clearance-timeline.yaml"
+      ]
+    },
+    {
+      "key": "vertex-defense:contact_decay",
+      "slug": "vertex-defense",
+      "customer": "Vertex Defense Solutions",
+      "tier": "strategic",
+      "lifecycle_stage": "handoff",
+      "accountable_owner": "l.novak@bah.com",
+      "signal": "contact_decay",
+      "label": "Contact decay",
+      "detail": "No contact in 15d; strategic cadence is 14d.",
+      "severity": "medium",
+      "points": 5,
+      "since": "2026-09-08",
+      "age_days": 15,
+      "arr": 3100000,
+      "refs": [
+        "customers/vertex-defense/touchpoints/2026-09-08-exec.md"
       ]
     }
   ]
