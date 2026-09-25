@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-24",
+  "as_of": "2026-09-25",
   "totals": {
     "customers": 3,
     "by_band": {
@@ -13,7 +13,7 @@
     "exceptions_by_severity": {
       "critical": 0,
       "high": 2,
-      "medium": 4,
+      "medium": 5,
       "low": 0
     },
     "open_commitments_past_due": 0,
@@ -27,12 +27,12 @@
       "lifecycle_stage": "presales",
       "phase": "presales",
       "stage_entered": "2026-07-28",
-      "days_in_stage": 58,
+      "days_in_stage": 59,
       "contract": {
         "value_annual": 1900000,
         "start": "2026-11-01",
         "end": "2027-10-31",
-        "days_to_renewal": 402
+        "days_to_renewal": 401
       },
       "accountable_owner": "m.okafor@bah.com",
       "delivery_lead": null,
@@ -47,7 +47,7 @@
             "fired": false,
             "points": 0,
             "severity": "low",
-            "detail": "Last contact 13d ago, within 14d cadence.",
+            "detail": "Last contact 14d ago, within 14d cadence.",
             "since": null,
             "refs": []
           },
@@ -77,7 +77,7 @@
             "fired": false,
             "points": 0,
             "severity": "low",
-            "detail": "58d in \"presales\", within 120d band.",
+            "detail": "59d in \"presales\", within 120d band.",
             "since": null,
             "refs": []
           },
@@ -107,7 +107,7 @@
             "fired": false,
             "points": 0,
             "severity": "low",
-            "detail": "Renewal 402d out; no plan required yet.",
+            "detail": "Renewal 401d out; no plan required yet.",
             "since": null,
             "refs": []
           }
@@ -122,7 +122,7 @@
         "stakeholders": 1
       },
       "last_contact": "2026-09-11",
-      "days_since_contact": 13,
+      "days_since_contact": 14,
       "cadence_days": 14,
       "handoff": null,
       "renewal_on_file": false
@@ -134,29 +134,31 @@
       "lifecycle_stage": "steady_state",
       "phase": "postsales",
       "stage_entered": "2026-02-10",
-      "days_in_stage": 226,
+      "days_in_stage": 227,
       "contract": {
         "value_annual": 2400000,
         "start": "2026-02-01",
         "end": "2027-01-31",
-        "days_to_renewal": 129
+        "days_to_renewal": 128
       },
       "accountable_owner": "r.chen@bah.com",
       "delivery_lead": "r.chen@bah.com",
       "presales_lead": "m.okafor@bah.com",
       "health": {
-        "score": 92,
+        "score": 87,
         "band": "green",
         "signals": [
           {
             "id": "contact_decay",
             "label": "Contact decay",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "Last contact 14d ago, within 14d cadence.",
-            "since": null,
-            "refs": []
+            "fired": true,
+            "points": 5,
+            "severity": "medium",
+            "detail": "No contact in 15d; strategic cadence is 14d.",
+            "since": "2026-09-10",
+            "refs": [
+              "customers/meridian-health/touchpoints/2026-09-10-qbr.md"
+            ]
           },
           {
             "id": "past_due_commitments",
@@ -214,7 +216,7 @@
             "fired": true,
             "points": 8,
             "severity": "medium",
-            "detail": "Renewal in 129d with no renewal.yaml on file.",
+            "detail": "Renewal in 128d with no renewal.yaml on file.",
             "since": "2027-01-31",
             "refs": [
               "customers/meridian-health/customer.yaml"
@@ -231,7 +233,7 @@
         "stakeholders": 1
       },
       "last_contact": "2026-09-10",
-      "days_since_contact": 14,
+      "days_since_contact": 15,
       "cadence_days": 14,
       "handoff": null,
       "renewal_on_file": false
@@ -243,12 +245,12 @@
       "lifecycle_stage": "handoff",
       "phase": "handoff",
       "stage_entered": "2026-07-02",
-      "days_in_stage": 84,
+      "days_in_stage": 85,
       "contract": {
         "value_annual": 3100000,
         "start": "2026-07-01",
         "end": "2028-06-30",
-        "days_to_renewal": 645
+        "days_to_renewal": 644
       },
       "accountable_owner": "l.novak@bah.com",
       "delivery_lead": "l.novak@bah.com",
@@ -263,7 +265,7 @@
             "fired": true,
             "points": 5,
             "severity": "medium",
-            "detail": "No contact in 16d; strategic cadence is 14d.",
+            "detail": "No contact in 17d; strategic cadence is 14d.",
             "since": "2026-09-08",
             "refs": [
               "customers/vertex-defense/touchpoints/2026-09-08-exec.md"
@@ -297,7 +299,7 @@
             "fired": true,
             "points": 16,
             "severity": "high",
-            "detail": "84d in \"handoff\", 63d beyond the 21d band.",
+            "detail": "85d in \"handoff\", 64d beyond the 21d band.",
             "since": "2026-07-02",
             "refs": [
               "customers/vertex-defense/customer.yaml"
@@ -309,7 +311,7 @@
             "fired": true,
             "points": 7,
             "severity": "medium",
-            "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 76d.",
+            "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 77d.",
             "since": "2026-07-10",
             "refs": [
               "customers/vertex-defense/risks/vertex-clearance-timeline.yaml"
@@ -321,7 +323,7 @@
             "fired": true,
             "points": 15,
             "severity": "high",
-            "detail": "Ownership transferred to l.novak@bah.com 27d ago, not yet acknowledged.",
+            "detail": "Ownership transferred to l.novak@bah.com 28d ago, not yet acknowledged.",
             "since": "2026-08-28",
             "refs": [
               "customers/vertex-defense/customer.yaml"
@@ -333,7 +335,7 @@
             "fired": false,
             "points": 0,
             "severity": "low",
-            "detail": "Renewal 645d out; no plan required yet.",
+            "detail": "Renewal 644d out; no plan required yet.",
             "since": null,
             "refs": []
           }
@@ -348,7 +350,7 @@
         "stakeholders": 1
       },
       "last_contact": "2026-09-08",
-      "days_since_contact": 16,
+      "days_since_contact": 17,
       "cadence_days": 14,
       "handoff": {
         "total": 8,
