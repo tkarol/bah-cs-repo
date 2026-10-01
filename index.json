@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-30",
+  "as_of": "2026-10-01",
   "totals": {
     "customers": 3,
     "by_band": {
@@ -12,11 +12,11 @@
     "arr_not_green": 3100000,
     "exceptions_by_severity": {
       "critical": 0,
-      "high": 2,
+      "high": 3,
       "medium": 6,
       "low": 0
     },
-    "open_commitments_past_due": 0,
+    "open_commitments_past_due": 1,
     "open_risks": 1
   },
   "customers": [
@@ -27,12 +27,12 @@
       "lifecycle_stage": "presales",
       "phase": "presales",
       "stage_entered": "2026-07-28",
-      "days_in_stage": 64,
+      "days_in_stage": 65,
       "contract": {
         "value_annual": 1900000,
         "start": "2026-11-01",
         "end": "2027-10-31",
-        "days_to_renewal": 396
+        "days_to_renewal": 395
       },
       "accountable_owner": "m.okafor@bah.com",
       "delivery_lead": null,
@@ -47,7 +47,7 @@
             "fired": true,
             "points": 5,
             "severity": "medium",
-            "detail": "No contact in 19d; strategic cadence is 14d.",
+            "detail": "No contact in 20d; strategic cadence is 14d.",
             "since": "2026-09-11",
             "refs": [
               "customers/harbor-point-health/touchpoints/2026-09-11-technical.md"
@@ -79,7 +79,7 @@
             "fired": false,
             "points": 0,
             "severity": "low",
-            "detail": "64d in \"presales\", within 120d band.",
+            "detail": "65d in \"presales\", within 120d band.",
             "since": null,
             "refs": []
           },
@@ -109,7 +109,7 @@
             "fired": false,
             "points": 0,
             "severity": "low",
-            "detail": "Renewal 396d out; no plan required yet.",
+            "detail": "Renewal 395d out; no plan required yet.",
             "since": null,
             "refs": []
           }
@@ -124,7 +124,7 @@
         "stakeholders": 1
       },
       "last_contact": "2026-09-11",
-      "days_since_contact": 19,
+      "days_since_contact": 20,
       "cadence_days": 14,
       "handoff": null,
       "renewal_on_file": false
@@ -136,27 +136,27 @@
       "lifecycle_stage": "steady_state",
       "phase": "postsales",
       "stage_entered": "2026-02-10",
-      "days_in_stage": 232,
+      "days_in_stage": 233,
       "contract": {
         "value_annual": 2400000,
         "start": "2026-02-01",
         "end": "2027-01-31",
-        "days_to_renewal": 123
+        "days_to_renewal": 122
       },
       "accountable_owner": "r.chen@bah.com",
       "delivery_lead": "r.chen@bah.com",
       "presales_lead": "m.okafor@bah.com",
       "health": {
-        "score": 87,
+        "score": 82,
         "band": "green",
         "signals": [
           {
             "id": "contact_decay",
             "label": "Contact decay",
             "fired": true,
-            "points": 5,
+            "points": 10,
             "severity": "medium",
-            "detail": "No contact in 20d; strategic cadence is 14d.",
+            "detail": "No contact in 21d; strategic cadence is 14d.",
             "since": "2026-09-10",
             "refs": [
               "customers/meridian-health/touchpoints/2026-09-10-qbr.md"
@@ -218,7 +218,7 @@
             "fired": true,
             "points": 8,
             "severity": "medium",
-            "detail": "Renewal in 123d with no renewal.yaml on file.",
+            "detail": "Renewal in 122d with no renewal.yaml on file.",
             "since": "2027-01-31",
             "refs": [
               "customers/meridian-health/customer.yaml"
@@ -235,7 +235,7 @@
         "stakeholders": 1
       },
       "last_contact": "2026-09-10",
-      "days_since_contact": 20,
+      "days_since_contact": 21,
       "cadence_days": 14,
       "handoff": null,
       "renewal_on_file": false
@@ -247,18 +247,18 @@
       "lifecycle_stage": "handoff",
       "phase": "handoff",
       "stage_entered": "2026-07-02",
-      "days_in_stage": 90,
+      "days_in_stage": 91,
       "contract": {
         "value_annual": 3100000,
         "start": "2026-07-01",
         "end": "2028-06-30",
-        "days_to_renewal": 639
+        "days_to_renewal": 638
       },
       "accountable_owner": "l.novak@bah.com",
       "delivery_lead": "l.novak@bah.com",
       "presales_lead": "m.okafor@bah.com",
       "health": {
-        "score": 39,
+        "score": 29,
         "band": "red",
         "signals": [
           {
@@ -267,7 +267,7 @@
             "fired": true,
             "points": 10,
             "severity": "medium",
-            "detail": "No contact in 22d; strategic cadence is 14d.",
+            "detail": "No contact in 23d; strategic cadence is 14d.",
             "since": "2026-09-08",
             "refs": [
               "customers/vertex-defense/touchpoints/2026-09-08-exec.md"
@@ -276,12 +276,14 @@
           {
             "id": "past_due_commitments",
             "label": "Past-due commitments",
-            "fired": false,
-            "points": 0,
-            "severity": "low",
-            "detail": "No commitments past due.",
-            "since": null,
-            "refs": []
+            "fired": true,
+            "points": 10,
+            "severity": "high",
+            "detail": "1 commitment past due. Oldest: \"Named solution architect dedicated at 50% for the first two quarters\" due 2026-09-30.",
+            "since": "2026-09-30",
+            "refs": [
+              "customers/vertex-defense/commitments/vertex-dedicated-architect.yaml"
+            ]
           },
           {
             "id": "handoff_debt",
@@ -301,7 +303,7 @@
             "fired": true,
             "points": 16,
             "severity": "high",
-            "detail": "90d in \"handoff\", 69d beyond the 21d band.",
+            "detail": "91d in \"handoff\", 70d beyond the 21d band.",
             "since": "2026-07-02",
             "refs": [
               "customers/vertex-defense/customer.yaml"
@@ -313,7 +315,7 @@
             "fired": true,
             "points": 8,
             "severity": "medium",
-            "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 82d.",
+            "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 83d.",
             "since": "2026-07-10",
             "refs": [
               "customers/vertex-defense/risks/vertex-clearance-timeline.yaml"
@@ -325,7 +327,7 @@
             "fired": true,
             "points": 15,
             "severity": "high",
-            "detail": "Ownership transferred to l.novak@bah.com 33d ago, not yet acknowledged.",
+            "detail": "Ownership transferred to l.novak@bah.com 34d ago, not yet acknowledged.",
             "since": "2026-08-28",
             "refs": [
               "customers/vertex-defense/customer.yaml"
@@ -337,7 +339,7 @@
             "fired": false,
             "points": 0,
             "severity": "low",
-            "detail": "Renewal 639d out; no plan required yet.",
+            "detail": "Renewal 638d out; no plan required yet.",
             "since": null,
             "refs": []
           }
@@ -346,13 +348,13 @@
       "counts": {
         "commitments_total": 2,
         "commitments_open": 2,
-        "commitments_past_due": 0,
+        "commitments_past_due": 1,
         "risks_open": 1,
         "touchpoints": 1,
         "stakeholders": 1
       },
       "last_contact": "2026-09-08",
-      "days_since_contact": 22,
+      "days_since_contact": 23,
       "cadence_days": 14,
       "handoff": {
         "total": 8,
