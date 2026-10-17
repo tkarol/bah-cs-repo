@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-10-16",
+  "as_of": "2026-10-17",
   "count": 9,
   "exceptions": [
     {
@@ -16,7 +16,7 @@
       "severity": "high",
       "points": 22,
       "since": "2026-07-23",
-      "age_days": 85,
+      "age_days": 86,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/handoff.yaml"
@@ -31,11 +31,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "contact_decay",
       "label": "Contact decay",
-      "detail": "No contact in 38d; strategic cadence is 14d.",
+      "detail": "No contact in 39d; strategic cadence is 14d.",
       "severity": "high",
       "points": 20,
       "since": "2026-09-08",
-      "age_days": 38,
+      "age_days": 39,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/touchpoints/2026-09-08-exec.md"
@@ -50,11 +50,11 @@
       "accountable_owner": "r.chen@bah.com",
       "signal": "contact_decay",
       "label": "Contact decay",
-      "detail": "No contact in 36d; strategic cadence is 14d.",
+      "detail": "No contact in 37d; strategic cadence is 14d.",
       "severity": "high",
       "points": 20,
       "since": "2026-09-10",
-      "age_days": 36,
+      "age_days": 37,
       "arr": 2400000,
       "refs": [
         "customers/meridian-health/touchpoints/2026-09-10-qbr.md"
@@ -69,11 +69,11 @@
       "accountable_owner": "m.okafor@bah.com",
       "signal": "contact_decay",
       "label": "Contact decay",
-      "detail": "No contact in 35d; strategic cadence is 14d.",
+      "detail": "No contact in 36d; strategic cadence is 14d.",
       "severity": "high",
       "points": 20,
       "since": "2026-09-11",
-      "age_days": 35,
+      "age_days": 36,
       "arr": 1900000,
       "refs": [
         "customers/harbor-point-health/touchpoints/2026-09-11-technical.md"
@@ -88,11 +88,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "stage_stagnation",
       "label": "Stage stagnation",
-      "detail": "106d in \"handoff\", 85d beyond the 21d band.",
+      "detail": "107d in \"handoff\", 86d beyond the 21d band.",
       "severity": "high",
       "points": 16,
       "since": "2026-07-02",
-      "age_days": 106,
+      "age_days": 107,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
@@ -107,11 +107,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "ownership_gap",
       "label": "Ownership gap",
-      "detail": "Ownership transferred to l.novak@bah.com 49d ago, not yet acknowledged.",
+      "detail": "Ownership transferred to l.novak@bah.com 50d ago, not yet acknowledged.",
       "severity": "high",
       "points": 15,
       "since": "2026-08-28",
-      "age_days": 49,
+      "age_days": 50,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
@@ -130,7 +130,7 @@
       "severity": "high",
       "points": 10,
       "since": "2026-09-30",
-      "age_days": 16,
+      "age_days": 17,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/commitments/vertex-dedicated-architect.yaml"
@@ -145,11 +145,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "risk_aging",
       "label": "Risk aging",
-      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 98d.",
+      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 99d.",
       "severity": "medium",
       "points": 8,
       "since": "2026-07-10",
-      "age_days": 98,
+      "age_days": 99,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/risks/vertex-clearance-timeline.yaml"
@@ -164,7 +164,7 @@
       "accountable_owner": "r.chen@bah.com",
       "signal": "renewal_exposure",
       "label": "Renewal exposure",
-      "detail": "Renewal in 107d with no renewal.yaml on file.",
+      "detail": "Renewal in 106d with no renewal.yaml on file.",
       "severity": "medium",
       "points": 8,
       "since": "2027-01-31",
