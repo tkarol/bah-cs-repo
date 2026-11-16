@@ -1,8 +1,28 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-15",
+  "as_of": "2026-11-16",
   "count": 9,
   "exceptions": [
+    {
+      "key": "vertex-defense:past_due_commitments",
+      "slug": "vertex-defense",
+      "customer": "Vertex Defense Solutions",
+      "tier": "strategic",
+      "lifecycle_stage": "handoff",
+      "accountable_owner": "l.novak@bah.com",
+      "signal": "past_due_commitments",
+      "label": "Past-due commitments",
+      "detail": "2 commitments past due, including a contractual one. Oldest: \"Named solution architect dedicated at 50% for the first two quarters\" due 2026-09-30.",
+      "severity": "critical",
+      "points": 30,
+      "since": "2026-09-30",
+      "age_days": 47,
+      "arr": 3100000,
+      "refs": [
+        "customers/vertex-defense/commitments/vertex-dedicated-architect.yaml",
+        "customers/vertex-defense/commitments/vertex-fedramp-roadmap.yaml"
+      ]
+    },
     {
       "key": "vertex-defense:contact_decay",
       "slug": "vertex-defense",
@@ -12,11 +32,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "contact_decay",
       "label": "Contact decay",
-      "detail": "No contact in 68d; strategic cadence is 14d.",
+      "detail": "No contact in 69d; strategic cadence is 14d.",
       "severity": "high",
       "points": 25,
       "since": "2026-09-08",
-      "age_days": 68,
+      "age_days": 69,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/touchpoints/2026-09-08-exec.md"
@@ -31,11 +51,11 @@
       "accountable_owner": "r.chen@bah.com",
       "signal": "contact_decay",
       "label": "Contact decay",
-      "detail": "No contact in 66d; strategic cadence is 14d.",
+      "detail": "No contact in 67d; strategic cadence is 14d.",
       "severity": "high",
       "points": 25,
       "since": "2026-09-10",
-      "age_days": 66,
+      "age_days": 67,
       "arr": 2400000,
       "refs": [
         "customers/meridian-health/touchpoints/2026-09-10-qbr.md"
@@ -50,11 +70,11 @@
       "accountable_owner": "m.okafor@bah.com",
       "signal": "contact_decay",
       "label": "Contact decay",
-      "detail": "No contact in 65d; strategic cadence is 14d.",
+      "detail": "No contact in 66d; strategic cadence is 14d.",
       "severity": "high",
       "points": 25,
       "since": "2026-09-11",
-      "age_days": 65,
+      "age_days": 66,
       "arr": 1900000,
       "refs": [
         "customers/harbor-point-health/touchpoints/2026-09-11-technical.md"
@@ -73,7 +93,7 @@
       "severity": "high",
       "points": 22,
       "since": "2026-07-23",
-      "age_days": 115,
+      "age_days": 116,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/handoff.yaml"
@@ -88,7 +108,7 @@
       "accountable_owner": "r.chen@bah.com",
       "signal": "renewal_exposure",
       "label": "Renewal exposure",
-      "detail": "Renewal in 77d with no renewal.yaml on file.",
+      "detail": "Renewal in 76d with no renewal.yaml on file.",
       "severity": "high",
       "points": 20,
       "since": "2027-01-31",
@@ -107,11 +127,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "stage_stagnation",
       "label": "Stage stagnation",
-      "detail": "136d in \"handoff\", 115d beyond the 21d band.",
+      "detail": "137d in \"handoff\", 116d beyond the 21d band.",
       "severity": "high",
       "points": 16,
       "since": "2026-07-02",
-      "age_days": 136,
+      "age_days": 137,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
@@ -126,33 +146,14 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "ownership_gap",
       "label": "Ownership gap",
-      "detail": "Ownership transferred to l.novak@bah.com 79d ago, not yet acknowledged.",
+      "detail": "Ownership transferred to l.novak@bah.com 80d ago, not yet acknowledged.",
       "severity": "high",
       "points": 15,
       "since": "2026-08-28",
-      "age_days": 79,
+      "age_days": 80,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/customer.yaml"
-      ]
-    },
-    {
-      "key": "vertex-defense:past_due_commitments",
-      "slug": "vertex-defense",
-      "customer": "Vertex Defense Solutions",
-      "tier": "strategic",
-      "lifecycle_stage": "handoff",
-      "accountable_owner": "l.novak@bah.com",
-      "signal": "past_due_commitments",
-      "label": "Past-due commitments",
-      "detail": "1 commitment past due. Oldest: \"Named solution architect dedicated at 50% for the first two quarters\" due 2026-09-30.",
-      "severity": "high",
-      "points": 10,
-      "since": "2026-09-30",
-      "age_days": 46,
-      "arr": 3100000,
-      "refs": [
-        "customers/vertex-defense/commitments/vertex-dedicated-architect.yaml"
       ]
     },
     {
@@ -164,11 +165,11 @@
       "accountable_owner": "l.novak@bah.com",
       "signal": "risk_aging",
       "label": "Risk aging",
-      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 128d.",
+      "detail": "1 open risk. Oldest: \"Delivery team clearance processing may slip past the kickoff date\" (medium) open 129d.",
       "severity": "medium",
       "points": 8,
       "since": "2026-07-10",
-      "age_days": 128,
+      "age_days": 129,
       "arr": 3100000,
       "refs": [
         "customers/vertex-defense/risks/vertex-clearance-timeline.yaml"
